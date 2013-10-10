@@ -34,7 +34,25 @@
         </activity>
         
         
-        <activity
+       
+        <activity android:name="com.example.Snake.Credit" android:label="@string/app_name">
+            
+            <intent-filter>
+                <action android:name="com.example.Snake.Credit" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="com.example.Snake.Tutorial">
+            
+             <intent-filter>
+                <action android:name="com.example.Snake.Tutorial" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+         <activity
             android:name="com.example.Snake.HighScores"
             android:label="@string/app_name" >
             <intent-filter>
@@ -42,6 +60,17 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.example.Snake.Grid" 
+            android:label="@string/app_name">
+            
+            <intent-filter>
+                <action android:name="com.example.Snake.Grid" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+            
         </activity>
        
     </application>

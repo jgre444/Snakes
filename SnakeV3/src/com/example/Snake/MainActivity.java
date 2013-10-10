@@ -28,9 +28,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	    	button4 = (Button) findViewById(R.id.button4);
 	        button5 = (Button) findViewById(R.id.button5);
 	        button6 = (Button) findViewById(R.id.button6);
-	        button6.setOnClickListener(this);
-	        button4.setOnClickListener(this);
+	        button1.setOnClickListener(this);
 	        button2.setOnClickListener(this);
+	        button3.setOnClickListener(this);
+	        button4.setOnClickListener(this);
+	        button5.setOnClickListener(this);
+	        button6.setOnClickListener(this);
+	        
+	        
 
 	       
 	}
@@ -46,21 +51,35 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()) {
 			// this will exit the program
-		    case R.id.button6:
-		    System.exit(0);
-		    finish();
+		  
 		
+		   case R.id.button1:
+		    	Intent i3 = new Intent(this, Grid.class);
+		    	startActivity(i3);
+		    	break;
+		    case R.id.button2:
+		    	Intent i2 = new Intent(this,HighScores.class);
+		    	startActivity(i2);
+		    	break;
+		    case R.id.button3:
+		    	Intent i4 = new Intent(this,Tutorial.class);
+		    	startActivity(i4);
+		    	break;
+		    case R.id.button5:
+		    	Intent i5 = new Intent(this,Credit.class);
+		    	startActivity(i5);
+		    	break;
+		    	
 		    case R.id.button4:
 		    	// this will take us to the option page
 		    	Intent i = new Intent(this,OptionMenu.class);
 		    	startActivity(i);
 		    	break;
 		
-		
-		    case R.id.button2:
-		    	Intent i2 = new Intent(this,HighScores.class);
-		    	startActivity(i2);
-		    	break;
+		    case R.id.button6:
+			    System.exit(0);
+			    finish();
+		   
 		}
 		
 	}
