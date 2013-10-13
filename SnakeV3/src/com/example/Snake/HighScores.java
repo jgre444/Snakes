@@ -21,7 +21,7 @@ public class HighScores  extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.highscores);
 		scoresAsString = new StringBuffer();
-		textview=(TextView)findViewById(R.id.textView1);
+		textview=(TextView)findViewById(R.id.endScore);
 		topScores = readScores();
 		getHighScores();
 	}

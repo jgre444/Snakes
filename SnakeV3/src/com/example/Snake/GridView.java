@@ -6,6 +6,7 @@ import java.util.Random;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -32,7 +33,7 @@ public class GridView extends View {
     
     private long lastUpdate;
     private long delay;
-    
+    private int score;
     private static final Random RNG = new Random();
    
     
@@ -41,6 +42,7 @@ public class GridView extends View {
     private int direction = UP;
     
     public int[][] grid;
+    public Grid activity;
     
     private ArrayList<Coordinate> snakeList = new ArrayList<Coordinate>();
     private ArrayList<Coordinate> foodList = new ArrayList<Coordinate>();
@@ -51,7 +53,8 @@ public class GridView extends View {
      */
 	public GridView(Context context) {
 		super(context);
-		cellSize = 50;
+		activity = (Grid)context;
+		cellSize = 30;
 		r = new RectF();
 		paint = new Paint();
 		setBackgroundColor(Color.LTGRAY);
@@ -75,6 +78,7 @@ public class GridView extends View {
         snakeList.add(new Coordinate(2, 7));
         direction = UP;
         delay = 300;
+        score = 0;
 
     }
     
@@ -103,17 +107,16 @@ public class GridView extends View {
 	 * Potential issue for snake to turn back on itself by doing quick 360
 	 */
 	public void updateDirection(int d) {
-		
 		if(d == direction) {
 			; // do nothing
 		} else {
-			if(!(direction == UP && d == DOWN))
+			if((direction != UP) && (d == DOWN))
 				direction = d;
-			else if(!(direction == DOWN && d == UP))
+			else if((direction != DOWN) && (d == UP))
 				direction = d;
-			else if(!(direction == LEFT && d == RIGHT))
+			else if((direction != LEFT) && (d == RIGHT))
 				direction = d;
-			else if(!(direction == RIGHT && d == LEFT))
+			else if((direction != RIGHT) && (d == LEFT))
 				direction = d;	
 		}
 	}
@@ -139,15 +142,14 @@ public class GridView extends View {
 				else if(grid[i][j] == SNAKE)
 					paint.setColor(Color.DKGRAY);
 				else if(grid[i][j] == FOOD)
-					paint.setColor(Color.CYAN);
+					paint.setColor(Color.GREEN);
 				else
 					paint.setColor(Color.RED);
 				r.set(i*cellSize, j*cellSize, (i+1)*cellSize, (j+1)*cellSize);
 				canvas.drawRect(r, paint);
 				}
 			}
-		}
-		
+		}		
 		update();
 
 	}
@@ -159,6 +161,7 @@ public class GridView extends View {
 		long now = System.currentTimeMillis();
 		if(now - lastUpdate > delay) {
 			lastUpdate = now;
+			checkGameOver();
 			clearGrid();
 			updateSnake();
 			updateFood();
@@ -178,8 +181,19 @@ public class GridView extends View {
 		}
 	}
 	
-	public void updateSnake() {
+	public void checkGameOver() {
 		Coordinate oldHead = snakeList.get(0);
+		Coordinate newHead = calcNewHead(oldHead);
+		//check for wall or self collision
+		if (grid[newHead.x][newHead.y] == SNAKE) {
+	    	Log.d("Snake hit itself" ,"Snake hit itself");
+			Intent intent = new Intent(activity, GameOver.class);
+			intent.putExtra(Grid.HIGH_SCORE, score);
+			activity.startActivity(intent);
+		}
+	}
+	
+	public Coordinate calcNewHead(Coordinate oldHead) {
 		Coordinate newHead = new Coordinate(0,0);
 		
 		if(direction == UP) {
@@ -205,6 +219,13 @@ public class GridView extends View {
 		else if (newHead.y >= yGridCount)
 			newHead.y = 0;
 		
+		return newHead;
+	}
+	
+	public void updateSnake() {
+		Coordinate oldHead = snakeList.get(0);
+		Coordinate newHead = calcNewHead(oldHead);
+		
 		snakeList.add(0, newHead);
 		
 		boolean grow = true;
@@ -215,29 +236,30 @@ public class GridView extends View {
 				grow = false;
 				foodList.remove(i);
 				addFood();
+		    	score++;				
 				if(delay > 100) {
 					delay = delay - 10;
 				}
 				break;
 			}
 		}
-		if(grow)
+		
+		
+		if(grow) {
 			snakeList.remove(snakeList.size() -1);
+		}
+		
 	}
 	
 	public void snakeToGrid() {
-		int size = snakeList.size();
-		for(int i = 0; i < size ; i++) {
-			Coordinate c = snakeList.get(i);
-			grid[c.x][c.y] = SNAKE;
+		for (Coordinate c : snakeList) {
+			grid[c.x][c.y] = SNAKE;		
 		}
 	}
 	
 	public void foodToGrid() {
-		int size = foodList.size();
-		for(int i = 0; i < size ; i++) {
-			Coordinate c = foodList.get(i);
-			grid[c.x][c.y] = FOOD;
+		for (Coordinate c : foodList) {
+			grid[c.x][c.y] = FOOD;		
 		}
 	}
 	

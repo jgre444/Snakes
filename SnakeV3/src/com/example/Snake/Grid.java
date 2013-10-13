@@ -15,7 +15,7 @@ import android.view.View.OnTouchListener;
 public class Grid extends Activity {
 
 	
-	
+	public final static String HIGH_SCORE = "com.example.Snake.SCORE";	
 	private View gridView;
 	private GestureDetectorCompat mDetector;
 	

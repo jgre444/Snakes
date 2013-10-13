@@ -10,17 +10,18 @@
        android:layout_width="match_parent"
        android:layout_height="0dip"
        android:layout_weight="1"
-       android:background="@drawable/topscoreframe"
+       android:background="@drawable/highscores"
        android:gravity="center|bottom"
        android:orientation="vertical" >
 
        <TextView
-           android:id="@+id/textView1"
+           android:id="@+id/endScore"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_weight="0.29"
+           android:layout_weight="0.14"
            android:gravity="center"
-           android:text="TextView" />
+           android:text="TextView"
+           android:textSize="35dp" />
 
    </LinearLayout>
       
