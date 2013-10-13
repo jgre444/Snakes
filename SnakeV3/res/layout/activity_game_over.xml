@@ -33,8 +33,38 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TextView01"
         android:layout_below="@+id/TextView01"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="79dp"
         android:text="___"
         android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/endScore"
+        android:layout_alignLeft="@+id/endScore"
+        android:layout_marginBottom="32dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/submitScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gameOverButton"
+        android:layout_alignRight="@+id/gameOverButton"
+        android:layout_below="@+id/endScore"
+        android:layout_marginTop="34dp"
+        android:text="Submit Score" />
+
+    <TextView
+        android:id="@+id/txtDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText1"
+        android:layout_alignLeft="@+id/editText1"
+        android:text="" />
 
 </RelativeLayout>

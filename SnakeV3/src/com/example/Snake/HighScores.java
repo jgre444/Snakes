@@ -3,6 +3,7 @@ package com.example.Snake;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -22,8 +23,28 @@ public class HighScores  extends Activity{
 		setContentView(R.layout.highscores);
 		scoresAsString = new StringBuffer();
 		textview=(TextView)findViewById(R.id.endScore);
-		topScores = readScores();
-		getHighScores();
+		//topScores = readScores();
+		tempDisplay();
+		//getHighScores();
+	}
+	//changed this 
+	public void tempDisplay(){
+		try{
+		FileInputStream fis = openFileInput("highscores.txt");
+		InputStreamReader isr = new InputStreamReader(fis);
+		BufferedReader br = new BufferedReader(isr);
+		String aLine = null;
+		String otput = " ";
+		while ((aLine=br.readLine())!=null){
+			otput+=aLine;
+			
+		}
+		textview.setText(otput.toString());
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+
+		
 	}
 
 	public void getHighScores(){
