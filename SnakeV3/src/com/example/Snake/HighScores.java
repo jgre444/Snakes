@@ -30,13 +30,14 @@ public class HighScores  extends Activity{
 	//changed this 
 	public void tempDisplay(){
 		try{
+		
 		FileInputStream fis = openFileInput("highscores.txt");
 		InputStreamReader isr = new InputStreamReader(fis);
 		BufferedReader br = new BufferedReader(isr);
 		String aLine = null;
 		String otput = " ";
 		while ((aLine=br.readLine())!=null){
-			otput+=aLine;
+			otput+="\n" + aLine;
 			
 		}
 		textview.setText(otput.toString());
@@ -47,48 +48,5 @@ public class HighScores  extends Activity{
 		
 	}
 
-	public void getHighScores(){
 
-		
-
-		if(topScores.size() == 0){
-			scoresAsString.append("\nreading ERROR");
-		}
-		else{
-			scoresAsString.append("Name\tScore\n\n");
-			for(int i = 0; i < topScores.size(); i++){
-				scoresAsString.append(topScores.get(i) + "\n");
-			}
-		}
-		
-
-		textview.setText(scoresAsString.toString());
-
-	}
-
-	public ArrayList<String>  readScores() {
-		ArrayList<String> scores = new ArrayList<String>();
-		
-
-		try{
-			BufferedReader newBufferReader=new BufferedReader(new 
-		            InputStreamReader(getAssets().open("Scores.txt")));
-			
-			String line = newBufferReader.readLine();
-			
-	        while (line != null) {	         
-					scores.add(line);	
-					line = newBufferReader.readLine();
-			}
-	        
-			newBufferReader.close();
-
-		} catch (Exception e) {
-			scoresAsString.append("\n" + e.getMessage());
-		}
-
-
-		return scores;
-
-	}
 }

@@ -1,10 +1,36 @@
 package com.example.Snake;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
+
+
+
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -13,6 +39,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class GridView extends View {
 
@@ -47,7 +75,8 @@ public class GridView extends View {
     private ArrayList<Coordinate> snakeList = new ArrayList<Coordinate>();
     private ArrayList<Coordinate> foodList = new ArrayList<Coordinate>();
 	
-    
+    private String otput;
+    private int level;
     /*
      * Constructor method
      */
@@ -57,8 +86,12 @@ public class GridView extends View {
 		cellSize = 30;
 		r = new RectF();
 		paint = new Paint();
-		setBackgroundColor(Color.LTGRAY);
+	
+		
+		setBackgroundColor(Color.WHITE);
 		initNewGame();
+		
+		
 	}
 	
 	/*
@@ -77,10 +110,58 @@ public class GridView extends View {
         snakeList.add(new Coordinate(3, 7));
         snakeList.add(new Coordinate(2, 7));
         direction = UP;
-        delay = 300;
+      
+        delay= getLevel();
         score = 0;
 
     }
+    
+    public int getLevel(){
+    	String level = changeLevel();
+		int myDelay=300;
+		if (level.toString().equals("1")){
+			myDelay=300;
+		}if (level.toString().equals("2")){
+			myDelay=290;
+		}if (level.toString().equals("3")){
+			myDelay=280;
+		}if (level.toString().equals("4")){
+			myDelay=270;
+		}if (level.toString().equals("5")){
+			myDelay=260;
+		}if (level.toString().equals("6")){
+			myDelay=250;
+		}if (level.toString().equals("7")){
+			myDelay=240;
+		}if (level.toString().equals("8")){
+			myDelay=230;
+		}if (level.toString().equals("9")){
+			myDelay=220;
+		}
+		return myDelay;
+	}
+	public String changeLevel(){
+		
+			try{
+			File file = getContext().getFileStreamPath("level.txt");
+			if (file.exists()){
+			FileInputStream fis = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+			String aLine = null;
+			otput = " ";
+			while ((aLine=br.readLine())!=null){
+				otput+=aLine;
+				
+			}
+			System.err.println("output"+otput);
+			}
+			}catch (IOException e){
+				e.printStackTrace();
+			}
+			return otput;
+	}
+	
     
     public void addFood() {
     	Log.d("RNG PROBLEM:", "xGridCount = " + xGridCount + "yGridCount =" + yGridCount);
@@ -227,7 +308,6 @@ public class GridView extends View {
 		Coordinate newHead = calcNewHead(oldHead);
 		
 		snakeList.add(0, newHead);
-		
 		boolean grow = true;
 		// Check for apple collision
 		for(int i = 0 ; i < foodList.size() ; i++) {

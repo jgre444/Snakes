@@ -2,6 +2,7 @@ package com.example.Snake;
 
 
 import com.example.sample.R;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.view.GestureDetectorCompat;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 
 public class Grid extends Activity {
 
@@ -25,6 +27,7 @@ public class Grid extends Activity {
 		setContentView(R.layout.snakes);
 		gridView = new GridView(this);
 		setContentView(gridView);
+	
 		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		
 //		gridView.setOnTouchListener(new OnTouchListener() {
