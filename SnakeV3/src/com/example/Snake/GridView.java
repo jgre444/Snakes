@@ -112,32 +112,35 @@ public class GridView extends View {
         direction = UP;
       
         delay= getLevel();
+        System.err.println("Delay: "+ delay	);
         score = 0;
 
     }
     
     public int getLevel(){
     	String level = changeLevel();
+    	System.err.println("myLevel: "+ level);
 		int myDelay=300;
-		if (level.toString().equals("1")){
+		if (level.contains("1")){
 			myDelay=300;
-		}if (level.toString().equals("2")){
-			myDelay=290;
-		}if (level.toString().equals("3")){
-			myDelay=280;
-		}if (level.toString().equals("4")){
-			myDelay=270;
-		}if (level.toString().equals("5")){
-			myDelay=260;
-		}if (level.toString().equals("6")){
-			myDelay=250;
-		}if (level.toString().equals("7")){
-			myDelay=240;
-		}if (level.toString().equals("8")){
+		}else if (level.contains("2")){
 			myDelay=230;
-		}if (level.toString().equals("9")){
-			myDelay=220;
+		}else if (level.contains("3")){
+			myDelay=200;
+		}else if (level.contains("4")){
+			myDelay=170;
+		}else if (level.contains("5")){
+			myDelay=140;
+		}else if (level.contains("6")){
+			myDelay=110;
+		}else if (level.contains("7")){
+			myDelay=70;
+		}else if (level.contains("8")){
+			myDelay=40;
+		}else if (level.contains("9")){
+			myDelay=40;
 		}
+		System.err.println("myDelay: "+ myDelay);
 		return myDelay;
 	}
 	public String changeLevel(){
