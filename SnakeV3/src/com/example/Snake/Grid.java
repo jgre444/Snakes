@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class Grid extends Activity {
 
@@ -20,14 +21,17 @@ public class Grid extends Activity {
 	public final static String HIGH_SCORE = "com.example.Snake.SCORE";	
 	private View gridView;
 	private GestureDetectorCompat mDetector;
+	public TextView score;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.snakes);
+		score = (TextView)findViewById(R.id.scoreDisplay);
 		gridView = new GridView(this);
+		
 		setContentView(gridView);
-	
+		
 		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		
 //		gridView.setOnTouchListener(new OnTouchListener() {

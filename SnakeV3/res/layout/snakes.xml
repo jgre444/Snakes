@@ -9,13 +9,13 @@
     >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/scoreDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="63dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="28dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     

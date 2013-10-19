@@ -21,30 +21,38 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int grass=0x7f020000;
-        public static final int highscores=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int logo=0x7f020003;
-        public static final int snakebackground=0x7f020004;
-        public static final int topscoreframe=0x7f020005;
+        public static final int background=0x7f020000;
+        public static final int grass=0x7f020001;
+        public static final int highscores=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int logo=0x7f020004;
+        public static final int optionmenu=0x7f020005;
+        public static final int snakebackground=0x7f020006;
+        public static final int topscoreframe=0x7f020007;
     }
     public static final class id {
         public static final int TextView01=0x7f080002;
-        public static final int action_settings=0x7f080010;
+        public static final int action_settings=0x7f080016;
         public static final int button2=0x7f080007;
         public static final int button3=0x7f080008;
         public static final int button4=0x7f080009;
         public static final int button5=0x7f08000a;
         public static final int button6=0x7f08000b;
         public static final int db1_root=0x7f080006;
-        public static final int displayText=0x7f08000e;
+        public static final int deleteScores=0x7f08000f;
+        public static final int displayText=0x7f080011;
         public static final int editText1=0x7f080003;
         public static final int endScore=0x7f080001;
         public static final int gameOverButton=0x7f080000;
-        public static final int levelTxt=0x7f08000d;
-        public static final int setLevel=0x7f08000f;
+        public static final int home2=0x7f080013;
+        public static final int levelTxt=0x7f080010;
+        public static final int menu3=0x7f08000c;
+        public static final int menu4=0x7f080015;
+        public static final int returnHome=0x7f08000e;
+        public static final int scoreDisplay=0x7f080014;
+        public static final int setLevel=0x7f080012;
         public static final int submitScore=0x7f080004;
-        public static final int textView1=0x7f08000c;
+        public static final int textView1=0x7f08000d;
         public static final int txtDisplay=0x7f080005;
     }
     public static final class layout {

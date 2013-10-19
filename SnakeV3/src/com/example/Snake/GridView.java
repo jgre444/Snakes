@@ -77,16 +77,19 @@ public class GridView extends View {
 	
     private String otput;
     private int level;
+    private Grid myContext;
     /*
      * Constructor method
      */
 	public GridView(Context context) {
 		super(context);
+		this.myContext=(Grid)context;
 		activity = (Grid)context;
 		cellSize = 30;
 		r = new RectF();
 		paint = new Paint();
-	
+		
+		
 		
 		setBackgroundColor(Color.WHITE);
 		initNewGame();
@@ -94,10 +97,13 @@ public class GridView extends View {
 		
 	}
 	
+
 	/*
 	 * Initialize new game
 	 */
     private void initNewGame() {
+    	
+    	
         snakeList.clear();
         foodList.clear();
 

@@ -21,6 +21,7 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 	private TextView displayText;
 	private EditText getLevel;
 	private Button get;
+	private Button home;
 	private int snakeLevel;
 
 	@Override
@@ -30,6 +31,8 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 		displayText=(TextView)findViewById(R.id.displayText);
 		getLevel=(EditText)findViewById(R.id.levelTxt);
 		get=(Button)findViewById(R.id.setLevel);
+		home=(Button)findViewById(R.id.home2);
+		home.setOnClickListener(this);
 		get.setOnClickListener(this);
 		
 		
@@ -70,6 +73,10 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 			   displayText.setText("Level updated");
 		   }
 		   break;
+	   case R.id.home2:
+		   Intent i3 = new Intent(this, MainActivity.class);
+	    	startActivity(i3);
+	    	break;
 		}
 		
 	}
