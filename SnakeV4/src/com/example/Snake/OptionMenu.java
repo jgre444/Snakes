@@ -13,13 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
 public class OptionMenu extends Activity implements View.OnClickListener {
 	
-	private TextView displayText;
-	private EditText getLevel;
+	private RadioGroup radioGroup;
+	private RadioButton radioButton;
+	private TextView text;
+	private int radioId;
 	private Button get;
 	private Button home;
 	private int snakeLevel;
@@ -28,27 +32,32 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.optionmenu);
-		displayText=(TextView)findViewById(R.id.displayText);
-		getLevel=(EditText)findViewById(R.id.levelTxt);
+		
 		get=(Button)findViewById(R.id.setLevel);
 		home=(Button)findViewById(R.id.home2);
+	
+		text=(TextView)findViewById(R.id.textView11);
 		home.setOnClickListener(this);
 		get.setOnClickListener(this);
 		
 		
 	}
-	public boolean isEmpty(){
-		boolean isEmpty=false;
-		if(getLevel.length()==0){
-			isEmpty=true;
-		}
-		return isEmpty;
-	}
+
 	public void updateLevel() {
 		try{
+		radioGroup=(RadioGroup)findViewById(R.id.radioSelection);
+		radioId=radioGroup.getCheckedRadioButtonId();
+		radioButton=(RadioButton)findViewById(radioId);
+		System.err.println("RadioButton: "+ radioButton.getText());
 		String level = "";
+		if (radioButton.getText().toString().contains("Easy")){
+			level="1";
+		}else if (radioButton.getText().toString().contains("Medium")){
+			level = "4";
+		}else if (radioButton.getText().toString().contains("Hard")){
+			level ="7";
+		}
 		OutputStreamWriter out = new OutputStreamWriter(openFileOutput("level.txt",0));
-		level=getLevel.getText().toString();
 		out.write(level.toString());
 		System.err.println("Level: " +level.toString());
 		out.close();
@@ -66,12 +75,11 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 	  
 	
 	   case R.id.setLevel:
-		   if(isEmpty()){
-			   displayText.setText("Please enter a level between 1 ...9");
-		   }else{
+		   
 			   updateLevel();
-			   displayText.setText("Level updated");
-		   }
+			   text.setText("Difficulty  Updated");
+			   
+		   
 		   break;
 	   case R.id.home2:
 		   Intent i3 = new Intent(this, MainActivity.class);
