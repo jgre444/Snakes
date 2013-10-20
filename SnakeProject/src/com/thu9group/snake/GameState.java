@@ -41,15 +41,30 @@ public class GameState {
 	public static final int Y_COUNT = 22;
 	
 	//the percentage chance of spawning an obstacle every cycle
-	public static final int OBSTACLE_SPAWN_CHANCE_EASY = 0;
-	public static final int OBSTACLE_SPAWN_CHANCE_MEDIUM = 5; 
-	public static final int OBSTACLE_SPAWN_CHANCE_HARD = 12;
+	public static final double OBSTACLE_SPAWN_CHANCE_EASY = 0;
+	public static final double OBSTACLE_SPAWN_CHANCE_MEDIUM = 3; 
+	public static final double OBSTACLE_SPAWN_CHANCE_HARD = 8;
 	
-	public static final int SIZE_INCREASE_SPAWN_CHANCE = 5;
-	public static final int SIZE_DECREASE_SPAWN_CHANCE = 5;	
+	public static final double INCR_SPAWN_CHANCE_EASY = 0.8;
+	public static final double INCR_SPAWN_CHANCE_MEDIUM = 0.5;
+	public static final double INCR_SPAWN_CHANCE_HARD = 0.25;
+	
+	public static final double DECR_SPAWN_CHANCE_EASY = 0;
+	public static final double DECR_SPAWN_CHANCE_MEDIUM = 0.4;
+	public static final double DECR_SPAWN_CHANCE_HARD = 0.22;	
+	
+	public static final int SIZE_INCREASE_DURATION = 50;
+	public static final int SIZE_MULTIPLIER = 3;
+	public static final int SIZE_DECREASE_AMT = 3;
 	
 	public static final int FOOD_LIFETIME = 100;
 	public static final int OBSTACLE_LIFETIME = 50;
+	public static final int POWERUP_LIFETIME = 50;
+	
+	
+	public static final double HARD_SCORE_MULTIPLIER = 3;
+	public static final double MEDIUM_SCORE_MULTIPLIER = 2;
+	public static final double EASY_SCORE_MULTIPLIER = 1;	
 	
 	//other variables
     public long delay;
@@ -65,6 +80,9 @@ public class GameState {
     private ArrayList<Feature> featureList = new ArrayList<Feature>();
 	private boolean gameOver = false;
 	private int turn = 0;
+	private int sizeIncrease = 0;
+	private int superGrow = 0;
+	private double scoreMultiplier = 0.0;
     
     public GameState(Grid activity) {
     	this.activity = activity;
@@ -82,13 +100,16 @@ public class GameState {
         difficulty = getLevel();
         if (difficulty == EASY) {
         	wallsEnabled = false;
-        	delay = 300;
+        	delay = 280;
+        	scoreMultiplier = EASY_SCORE_MULTIPLIER;
         } else if (difficulty == MEDIUM){
         	wallsEnabled = true;
-        	delay = 250;
+        	delay = 225;
+        	scoreMultiplier = MEDIUM_SCORE_MULTIPLIER;
         } else {
         	wallsEnabled = true;
         	delay = 200;
+        	scoreMultiplier = HARD_SCORE_MULTIPLIER;
         }
         //create walls
         if (wallsEnabled) {
@@ -169,6 +190,14 @@ public class GameState {
 	 */
 	public void cycle() {
 		turn++;
+		
+		if (sizeIncrease > 0) {
+			sizeIncrease-- ;
+		} else {
+			superGrow = 0;
+		}
+		
+		
 		Coordinate oldHead = snakeList.get(0);
 		Coordinate newHead = calcNewHead(oldHead);
 		//check for wall or self or obstacle collision
@@ -209,8 +238,8 @@ public class GameState {
 		}
 		
 		//generate random obstacle
-		int rnd = RNG.nextInt(99) + 1;
-		int spawnChance = OBSTACLE_SPAWN_CHANCE_EASY;
+		double rnd = RNG.nextDouble() * 100;
+		double spawnChance = OBSTACLE_SPAWN_CHANCE_EASY;
 		if (difficulty == MEDIUM) {
 			spawnChance = OBSTACLE_SPAWN_CHANCE_MEDIUM;
 		} else if (difficulty == HARD) {
@@ -221,6 +250,32 @@ public class GameState {
 	    	Coordinate c = generateRandomCoordinate();
 	    	featureList.add(new Feature(c, OBSTACLE, OBSTACLE_LIFETIME));
 		}
+		
+		//generate random powerup;
+		rnd = RNG.nextDouble() * 100;
+		spawnChance = INCR_SPAWN_CHANCE_EASY;
+		if (difficulty == MEDIUM) {
+			spawnChance = INCR_SPAWN_CHANCE_MEDIUM;
+		} else if (difficulty == HARD) {
+			spawnChance = INCR_SPAWN_CHANCE_HARD;
+		}
+		
+		if (rnd <= spawnChance) {
+	    	Coordinate c = generateRandomCoordinate();
+	    	featureList.add(new Feature(c, SIZE_INCREASE, POWERUP_LIFETIME));
+		}
+		rnd = RNG.nextDouble() * 100;
+		spawnChance = DECR_SPAWN_CHANCE_EASY;
+		if (difficulty == MEDIUM) {
+			spawnChance = DECR_SPAWN_CHANCE_MEDIUM;
+		} else if (difficulty == HARD) {
+			spawnChance = DECR_SPAWN_CHANCE_HARD;
+		}
+		if (rnd <= spawnChance) {
+	    	Coordinate c = generateRandomCoordinate();
+	    	featureList.add(new Feature(c, SIZE_DECREASE, POWERUP_LIFETIME));
+		}
+				
 		
 	}
 	
@@ -309,25 +364,58 @@ public class GameState {
 		Coordinate newHead = calcNewHead(oldHead);
 		
 		snakeList.add(0, newHead);
-		boolean grow = true;
-		// Check for apple collision
+		boolean grow = false;
 		for(int i = 0 ; i < featureList.size() ; i++) {
 			Feature f = featureList.get(i);
+			// Check for apple collision
 			if ((f.coordinate.equals(newHead)) && (f.type == FOOD)) {
-				grow = false;
+				grow = true;
+				if (sizeIncrease > 0) {
+					superGrow = SIZE_MULTIPLIER;
+					score += (SIZE_MULTIPLIER - 1) * (scoreMultiplier);
+				}
 				featureList.remove(i);
-		    	score++;				
-				if((delay > 150) && (difficulty != EASY)) {
-					delay = delay - 10;
+		    	score += (1 * scoreMultiplier);				
+				if((delay > 144) && (difficulty == HARD)) {
+					delay = delay - 6;
 				}
 				break;
 			}
+			
+			//check for size increase collision
+			if ((f.coordinate.equals(newHead)) && (f.type == SIZE_INCREASE)) {
+				featureList.remove(i);
+				sizeIncrease = SIZE_INCREASE_DURATION;
+
+				break;
+			}
+			
+			//check for size decrease collision
+			if ((f.coordinate.equals(newHead)) && (f.type == SIZE_DECREASE)) {
+				featureList.remove(i);
+				int count = SIZE_DECREASE_AMT;
+				while (count > 0) {
+					if (snakeList.size() >= 5) {
+						snakeList.remove(snakeList.size() - 1);
+					}
+					count--;
+				}
+
+				break;
+			}			
 		}
 		
+
 		
-		if(grow) {
+		
+		if ((grow == false) && (superGrow == 0))  {
 			snakeList.remove(snakeList.size() -1);
 		}
+		if (superGrow > 0) {
+			superGrow--;
+		}
+		
+
 		
 	}
 	

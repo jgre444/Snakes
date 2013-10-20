@@ -93,6 +93,10 @@ public class GridView extends View {
 						paint.setColor(Color.GREEN);
 					else if (state.getCell(i, j) == GameState.OBSTACLE)
 						paint.setColor(Color.RED);
+					else if (state.getCell(i, j) == GameState.SIZE_INCREASE)
+						paint.setColor(Color.YELLOW);
+					else if (state.getCell(i, j) == GameState.SIZE_DECREASE)
+						paint.setColor(Color.CYAN);
 					else
 						paint.setColor(Color.RED);
 				r.set(i*xCellSize + xOffset, j*yCellSize + yOffset, (i+1)*xCellSize + xOffset, (j+1)*yCellSize + yOffset);
