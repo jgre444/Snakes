@@ -11,6 +11,7 @@ import com.thu9group.snake.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.View;
@@ -27,6 +28,8 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.highscores);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 		scoresAsString = new StringBuffer();
 		textview=(TextView)findViewById(R.id.endScore);
 		mainMenu=(Button)findViewById(R.id.returnHome);

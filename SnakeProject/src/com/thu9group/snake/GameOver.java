@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 
 public class GameOver extends Activity implements View.OnClickListener {
@@ -41,6 +42,9 @@ public class GameOver extends Activity implements View.OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		
 		setContentView(R.layout.activity_game_over);
 		Intent intent = getIntent();
 		scores = new ArrayList<String>();

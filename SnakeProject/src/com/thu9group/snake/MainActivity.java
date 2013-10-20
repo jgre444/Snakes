@@ -5,6 +5,7 @@ import com.thu9group.snake.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 			button1 = (Button) findViewById(R.id.gameOverButton);
 	        button2 = (Button) findViewById(R.id.button2);
 	        button3 = (Button) findViewById(R.id.button3);

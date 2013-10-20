@@ -8,6 +8,7 @@ import android.net.NetworkInfo.State;
 import android.os.*;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -38,6 +39,9 @@ public class Grid extends Activity implements Runnable {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		
 		gameState = new GameState(this);	
 		gridView = new GridView(this);
 		mHandler = new GameOverHandler(Looper.getMainLooper(), this);
