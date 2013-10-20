@@ -19,6 +19,9 @@ import android.util.Log;
 
 public class GameState {
 	//constants
+	public static final int RUNNING = 1;
+	public static final int PAUSED = 0;
+	
 	public static final int EMPTY = 0;
 	public static final int WALL = 1;
 	public static final int SNAKE = 2;
@@ -75,6 +78,7 @@ public class GameState {
 	private boolean wallsEnabled = true;
     private int[][] grid;
     public Grid activity;
+    public int state;
     
     private ArrayList<Coordinate> snakeList = new ArrayList<Coordinate>();
     private ArrayList<Feature> featureList = new ArrayList<Feature>();
@@ -125,6 +129,7 @@ public class GameState {
         
         System.err.println("Delay: "+ delay	);
         score = 0;
+        state = RUNNING;
     }
     
 
@@ -189,6 +194,9 @@ public class GameState {
 	 * this is called whenever it is time for the snake to move one position forward
 	 */
 	public void cycle() {
+		if(state == PAUSED) {
+			return;
+		}
 		turn++;
 		
 		if (sizeIncrease > 0) {

@@ -28,9 +28,11 @@ public class Grid extends Activity implements Runnable {
 	private GameState gameState;
 	private GestureDetectorCompat mDetector;
 	public ScoreView score;
+	public Button pause;
 	private Thread gameThread;
     private long lastUpdate;
     private GameOverHandler mHandler;
+    
 
     
 	@Override
@@ -55,9 +57,20 @@ public class Grid extends Activity implements Runnable {
 
 		setContentView(gameLayout, glp);
 
-		Button pause = new Button(this);
+		pause = new Button(this);
 		pause.setText("PAUSE");
 		topLayout.addView(pause, tlp);
+		pause.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+                if (gameState.state == gameState.RUNNING) {
+                	gameState.state = gameState.PAUSED;
+                	pause.setText("RESUME");
+                } else {
+                	gameState.state = gameState.RUNNING;
+                	pause.setText("PAUSE");
+                }
+            }
+        });
 		
 		score = new ScoreView(this);
 		score.setText("SCORE: ");
