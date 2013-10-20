@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +27,7 @@ public class Grid extends Activity implements Runnable {
 	private View gridView;
 	private GameState gameState;
 	private GestureDetectorCompat mDetector;
-	public TextView score;
+	public ScoreView score;
 	private Thread gameThread;
     private long lastUpdate;
     private GameOverHandler mHandler;
@@ -34,14 +36,39 @@ public class Grid extends Activity implements Runnable {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.snakes);
-		score = (TextView)findViewById(R.id.scoreDisplay);
 		gameState = new GameState(this);	
 		gridView = new GridView(this);
 		mHandler = new GameOverHandler(Looper.getMainLooper(), this);
+		
+		
+		
+		LinearLayout gameLayout = new LinearLayout(this);
+		gameLayout.setOrientation(LinearLayout.VERTICAL);
+		
+		LinearLayout topLayout = new LinearLayout(this);
+		topLayout.setOrientation(LinearLayout.HORIZONTAL);
+		
+		LayoutParams glp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LayoutParams tlp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		
 
+		setContentView(gameLayout, glp);
+
+		Button pause = new Button(this);
+		pause.setText("PAUSE");
+		topLayout.addView(pause, tlp);
+		
+		score = new ScoreView(this);
+		score.setText("SCORE: ");
+		score.setLayoutParams(tlp);
+		topLayout.addView(score);
+		
+		gameLayout.addView(topLayout, tlp);
+		gameLayout.addView(gridView);
+		
+		
 		((GridView)gridView).state = gameState;
-		setContentView(gridView);
 		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -57,6 +84,8 @@ public class Grid extends Activity implements Runnable {
 			if(now - lastUpdate > gameState.delay) {
 				lastUpdate = now;
 				gameState.cycle();
+				score.setscore(gameState.score);
+				score.postInvalidate();
 			    gridView.postInvalidate();  // Force a re-draw
 			}
 		}
