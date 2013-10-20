@@ -25,7 +25,7 @@ public class Grid extends Activity implements Runnable {
 
 	
 	public final static String HIGH_SCORE = "com.thu9group.snake.SCORE";	
-	private View gridView;
+	private GridView gridView;
 	private GameState gameState;
 	private GestureDetectorCompat mDetector;
 	public ScoreView score;
@@ -85,7 +85,7 @@ public class Grid extends Activity implements Runnable {
 		gameLayout.addView(gridView);
 		
 		
-		((GridView)gridView).state = gameState;
+		((GridView)gridView).gameState = gameState;
 		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -104,7 +104,7 @@ public class Grid extends Activity implements Runnable {
 				score.setscore(gameState.score);
 				score.postInvalidate();
 			    gridView.postInvalidate();  // Force a re-draw
-			}
+			} 
 		}
 		
 		//game over

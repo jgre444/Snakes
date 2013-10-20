@@ -2,10 +2,8 @@ package com.thu9group.snake;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import com.thu9group.snake.R;
 
@@ -13,15 +11,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class HighScores  extends Activity  implements View.OnClickListener{
 	private TextView textview;
-	private ArrayList<String> topScores;
-	private StringBuffer scoresAsString;
 	private Button delScores;
 	private Button mainMenu;
 	@Override
@@ -30,7 +25,6 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 		setContentView(R.layout.highscores);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		scoresAsString = new StringBuffer();
 		textview=(TextView)findViewById(R.id.endScore);
 		mainMenu=(Button)findViewById(R.id.returnHome);
 		delScores=(Button)findViewById(R.id.deleteScores);

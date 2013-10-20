@@ -1,52 +1,34 @@
 package com.thu9group.snake;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+
+
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Random;
-
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-
-
-
-
-import android.R;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class GridView extends View {
 
     private RectF r;
     private Paint paint;
-    public GameState state;
+    public GameState gameState;
+    
+    private int xGridCount;
+    private int yGridCount;
+    private int xCellSize;
+    private int yCellSize;
+    private int xOffset;
+    private int yOffset;
+    
+    private int xSnakeIndent;
+    private int ySnakeIndent;
+        
+    private int w;
+    private int h;
     
 
     /*
@@ -54,14 +36,14 @@ public class GridView extends View {
      */
 	public GridView(Context context) {
 		super(context);
+		
+
+		
 		r = new RectF();
 		paint = new Paint();
 		setBackgroundColor(Color.WHITE);
 	}
-
-    
-
-	
+    	
 	/*
 	 * Draw Canvas
 	 * (non-Javadoc)
@@ -70,50 +52,116 @@ public class GridView extends View {
 
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		int xGridCount = GameState.X_COUNT;
-		int yGridCount = GameState.Y_COUNT;
-        int xCellSize = getWidth() / xGridCount;
-        int yCellSize = getHeight() / yGridCount;
-        int xOffset = ((getWidth() - xGridCount*xCellSize) / 2);
-        int yOffset = ((getHeight() - yGridCount*yCellSize) / 2);		
-        
-        
-        
+	
+		// Draw the walls
 		paint.setColor(Color.BLACK);
-		for(int i = 0 ; i < xGridCount ; i++) {
-			for(int j = 0 ; j < yGridCount ; j++) {
-				if(state.getCell(i, j) == GameState.EMPTY) {
+		RectF wall = new RectF();
+		
+		wall.set(0, 0, xOffset, h);
+		canvas.drawRect(wall, paint);
+		wall.set(0, 0, w, yOffset);
+		canvas.drawRect(wall, paint);
+		wall.set(w-xOffset, 0, w, h);
+		canvas.drawRect(wall,paint);
+		wall.set(0, h-yOffset, w, h);
+		canvas.drawRect(wall, paint);
 
-				} else {
-					if(state.getCell(i, j) == GameState.WALL)
-						paint.setColor(Color.BLACK);
-					else if(state.getCell(i, j) == GameState.SNAKE)
-						paint.setColor(Color.GRAY);
-					else if(state.getCell(i, j) == GameState.FOOD)
-						paint.setColor(Color.GREEN);
-					else if (state.getCell(i, j) == GameState.OBSTACLE)
-						paint.setColor(Color.RED);
-					else if (state.getCell(i, j) == GameState.SIZE_INCREASE)
-						paint.setColor(Color.YELLOW);
-					else if (state.getCell(i, j) == GameState.SIZE_DECREASE)
-						paint.setColor(Color.CYAN);
-					else
-						paint.setColor(Color.RED);
-				r.set(i*xCellSize + xOffset, j*yCellSize + yOffset, (i+1)*xCellSize + xOffset, (j+1)*yCellSize + yOffset);
-				canvas.drawRect(r, paint);
-				}
+		
+		// Draw the snake
+		ArrayList<Coordinate> snakeList = gameState.getSnakeList();
+		
+
+		for(Coordinate c : snakeList) {
+			drawSnakeBody(c, canvas);
+		}
+        
+		// Draw features
+		ArrayList<Feature> featureList = gameState.getFeatureList();
+		for(int i = 0 ; i < featureList.size() ; i++) {
+			Feature f = featureList.get(i);
+			Coordinate c = f.coordinate;
+			
+			if(f.type == Feature.FOOD) {
+				paint.setColor(Color.GREEN);
+			} else if (f.type == Feature.OBSTACLE) {
+				paint.setColor(Color.RED);
+			} else if (f.type == Feature.SIZE_DECREASE) {
+				paint.setColor(Color.CYAN);
+			} else if (f.type == Feature.SIZE_INCREASE) {
+				paint.setColor(Color.YELLOW);
+			} else {
+				paint.setColor(Color.MAGENTA);
 			}
 			
-		}	
+			r.set(c.x*xCellSize + xOffset, c.y*yCellSize + yOffset, (c.x+1)*xCellSize + xOffset, (c.y+1)*yCellSize + yOffset);
+			canvas.drawRect(r, paint);
+
+		}		
+	}
+	
+	
+	private void drawSnakeBody(Coordinate c, Canvas canvas) {
+		int orientation = c.orientation;
+		paint.setColor(Color.DKGRAY);
+		int bottom, top, left, right;
 		
+		if (orientation == Coordinate.LEFT || orientation == Coordinate.RIGHT) {
+			left = c.x * xCellSize;
+			right = (c.x+1)*xCellSize;
+			bottom = c.y*yCellSize+ySnakeIndent;
+			top = (c.y+1)*yCellSize-ySnakeIndent;
+			r.set(left, bottom, right, top);
+			canvas.drawRect(r, paint);
+		} else if (orientation == Coordinate.UP || orientation == Coordinate.DOWN) {
+			left = c.x * xCellSize+xSnakeIndent;
+			right = (c.x+1)*xCellSize-xSnakeIndent;
+			bottom = c.y*yCellSize;
+			top = (c.y+1)*yCellSize;
+			r.set(left, bottom, right, top);
+			canvas.drawRect(r, paint);
+		} else if (orientation >= Coordinate.CORNER1 && orientation <= Coordinate.CORNER4) {
+			left = c.x * xCellSize+xSnakeIndent;
+			right = (c.x+1)*xCellSize-xSnakeIndent;
+			bottom = c.y*yCellSize+ySnakeIndent;
+			top = (c.y+1)*yCellSize-ySnakeIndent;
+			r.set(left, bottom, right, top);
+			canvas.drawRect(r, paint);
+			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER2) {
+				left = c.x * xCellSize+xSnakeIndent;
+				right = (c.x+1)*xCellSize-xSnakeIndent;
+				bottom = (c.y+1)*yCellSize-ySnakeIndent;
+				top = (c.y+1)*yCellSize;
+				r.set(left, bottom, right, top);
+				canvas.drawRect(r, paint);
+			}
+			if (orientation == Coordinate.CORNER3 || orientation == Coordinate.CORNER4) {
+				left = c.x * xCellSize+xSnakeIndent;
+				right = (c.x+1)*xCellSize-xSnakeIndent;
+				bottom = (c.y)*yCellSize;
+				top = (c.y)*yCellSize+ySnakeIndent;
+				r.set(left, bottom, right, top);
+				canvas.drawRect(r, paint);
+			}
+			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER3) {
+				left = (c.x+1)*xCellSize-xSnakeIndent;
+				right = (c.x+1)*xCellSize;
+				bottom = c.y*yCellSize+ySnakeIndent;
+				top = (c.y+1)*yCellSize-ySnakeIndent;
+				r.set(left, bottom, right, top);
+				canvas.drawRect(r, paint);
+			}
+			if (orientation == Coordinate.CORNER2 || orientation == Coordinate.CORNER4) {
+				left = c.x*xCellSize;
+				right = c.x*xCellSize+xSnakeIndent;
+				bottom = c.y*yCellSize+ySnakeIndent;
+				top = (c.y+1)*yCellSize-ySnakeIndent;
+				r.set(left, bottom, right, top);
+				canvas.drawRect(r, paint);
+			}
+		}
 	}
 	
 
-	
-
-
-	
-	
 	/*
 	 * Called on creation to get size of grid
 	 * (non-Javadoc)
@@ -121,13 +169,21 @@ public class GridView extends View {
 	 */
 	@Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		/*
-		cellSize = (int) Math.floor(h / yGridCount);
-		xGridCount = (int) Math.floor(w / cellSize);
+		
+		this.w = w;
+		this.h =h;
+				
+		xGridCount = GameState.X_COUNT;
+		yGridCount = GameState.Y_COUNT;
+        xCellSize = w / xGridCount;
+        int temp = xCellSize / 10;
+        xSnakeIndent = 1 * temp;
+        yCellSize = h / yGridCount;
+        temp = yCellSize / 10;
+        ySnakeIndent = 1 * temp;
+        xOffset = (w - xGridCount*xCellSize) / 2;
+        yOffset = (h - yGridCount*yCellSize) / 2;	
         
-        xOffset = ((w - xGridCount*cellSize) / 2);
-        yOffset = ((h - yGridCount*cellSize) / 2);
-        */
 
     }
 	

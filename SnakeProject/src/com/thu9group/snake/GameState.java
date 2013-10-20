@@ -9,27 +9,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.Log;
-
-
 public class GameState {
+	
 	//constants
 	public static final int RUNNING = 1;
 	public static final int PAUSED = 0;
-	
-	public static final int EMPTY = 0;
-	public static final int WALL = 1;
-	public static final int SNAKE = 2;
-	public static final int FOOD = 3;
-	public static final int OBSTACLE = 4;
-	public static final int SIZE_INCREASE = 5;
-	public static final int SIZE_DECREASE = 6;
-	
+		
 	public static final int UP = 0;
 	public static final int DOWN = 1;
 	public static final int LEFT = 2;
@@ -73,10 +58,12 @@ public class GameState {
     public long delay;
     public static int score;
     private static final Random RNG = new Random();
+    
     private int direction = UP;
+    private int nextDirection = UP;
+    
     private int difficulty = 2;
 	private boolean wallsEnabled = true;
-    private int[][] grid;
     public Grid activity;
     public int state;
     
@@ -90,18 +77,19 @@ public class GameState {
     
     public GameState(Grid activity) {
     	this.activity = activity;
-    	grid = new int[X_COUNT][Y_COUNT];
 
         // For now we're just going to load up a short default eastbound snake
         // that's just turned north
-        snakeList.add(new Coordinate(7, 7));
-        snakeList.add(new Coordinate(6, 7));
-        snakeList.add(new Coordinate(5, 7));
-        snakeList.add(new Coordinate(4, 7));
-        snakeList.add(new Coordinate(3, 7));
-        snakeList.add(new Coordinate(2, 7));
+        snakeList.add(new Coordinate(7, 7, Coordinate.CORNER4));
+        snakeList.add(new Coordinate(6, 7, Coordinate.RIGHT));
+        snakeList.add(new Coordinate(5, 7, Coordinate.RIGHT));
+        snakeList.add(new Coordinate(4, 7, Coordinate.RIGHT));
+        snakeList.add(new Coordinate(3, 7, Coordinate.RIGHT));
+        snakeList.add(new Coordinate(2, 7, Coordinate.RIGHT));
+      
         direction = UP;
         difficulty = getLevel();
+        
         if (difficulty == EASY) {
         	wallsEnabled = false;
         	delay = 280;
@@ -115,23 +103,20 @@ public class GameState {
         	delay = 200;
         	scoreMultiplier = HARD_SCORE_MULTIPLIER;
         }
-        //create walls
-        if (wallsEnabled) {
-        	for (int i =0; i<X_COUNT; i++) {
-        		featureList.add(new Feature(new Coordinate(i, 0), WALL));
-        		featureList.add(new Feature(new Coordinate(i, Y_COUNT - 1), WALL));   		
-        	}
-        	for (int i =0; i<Y_COUNT; i++) {
-        		featureList.add(new Feature(new Coordinate(0, i), WALL));
-        		featureList.add(new Feature(new Coordinate(X_COUNT -1, i), WALL));   	
-        	} 	
-        }
+
         
         System.err.println("Delay: "+ delay	);
         score = 0;
         state = RUNNING;
     }
     
+    public ArrayList<Coordinate> getSnakeList() {
+    	return snakeList;
+    }
+    
+    public ArrayList<Feature> getFeatureList() {
+    	return featureList;
+    }
 
 	
 	
@@ -144,13 +129,13 @@ public class GameState {
 			; // do nothing
 		} else {
 			if((direction != UP) && (d == DOWN))
-				direction = d;
+				nextDirection = d;
 			else if((direction != DOWN) && (d == UP))
-				direction = d;
+				nextDirection = d;
 			else if((direction != LEFT) && (d == RIGHT))
-				direction = d;
+				nextDirection = d;
 			else if((direction != RIGHT) && (d == LEFT))
-				direction = d;	
+				nextDirection = d;	
 		}
 	}  
     
@@ -207,27 +192,35 @@ public class GameState {
 		
 		
 		Coordinate oldHead = snakeList.get(0);
+		
 		Coordinate newHead = calcNewHead(oldHead);
-		//check for wall or self or obstacle collision
-		if ((grid[newHead.x][newHead.y] == SNAKE) || (grid[newHead.x][newHead.y] == WALL)
-				|| (grid[newHead.x][newHead.y]== OBSTACLE)) {
+		
+		// Check for collision with wall
+		if(newHead.x < 0 || newHead.x > X_COUNT || newHead.y < 0 || newHead.y > Y_COUNT) {
 			gameOver = true;
 			return;
 		}
+		
+		// Check for collision with itself
+		if(snakeList.contains(newHead)) {
+			gameOver = true;
+			return;
+		}
+		
+
 		updateSnake();
 		updateFeatures();
-		clearGrid();
-		generateGrid();	
+
 	}
 	
 	private void updateFeatures() {
 		int size = 0;
 		for (Feature f : featureList) {
-			if (f.type == FOOD) size++;
+			if (f.type == Feature.FOOD) size++;
 		}
 		while(size < 2) {
 	    	Coordinate c = generateRandomCoordinate();
-	    	featureList.add(new Feature(c, FOOD, FOOD_LIFETIME));
+	    	featureList.add(new Feature(c, Feature.FOOD, FOOD_LIFETIME));
 			size++;
 		}
 		
@@ -256,7 +249,7 @@ public class GameState {
 		
 		if (rnd <= spawnChance) {
 	    	Coordinate c = generateRandomCoordinate();
-	    	featureList.add(new Feature(c, OBSTACLE, OBSTACLE_LIFETIME));
+	    	featureList.add(new Feature(c, Feature.OBSTACLE, OBSTACLE_LIFETIME));
 		}
 		
 		//generate random powerup;
@@ -270,7 +263,7 @@ public class GameState {
 		
 		if (rnd <= spawnChance) {
 	    	Coordinate c = generateRandomCoordinate();
-	    	featureList.add(new Feature(c, SIZE_INCREASE, POWERUP_LIFETIME));
+	    	featureList.add(new Feature(c, Feature.SIZE_INCREASE, POWERUP_LIFETIME));
 		}
 		rnd = RNG.nextDouble() * 100;
 		spawnChance = DECR_SPAWN_CHANCE_EASY;
@@ -281,7 +274,7 @@ public class GameState {
 		}
 		if (rnd <= spawnChance) {
 	    	Coordinate c = generateRandomCoordinate();
-	    	featureList.add(new Feature(c, SIZE_DECREASE, POWERUP_LIFETIME));
+	    	featureList.add(new Feature(c, Feature.SIZE_DECREASE, POWERUP_LIFETIME));
 		}
 				
 		
@@ -341,18 +334,45 @@ public class GameState {
 	private Coordinate calcNewHead(Coordinate oldHead) {
 		Coordinate newHead = new Coordinate(0,0);
 		
+		int oldDirection = direction;
+		direction = nextDirection;
+		
 		if(direction == UP) {
 			newHead.x = oldHead.x;
 			newHead.y = oldHead.y - 1;
+			newHead.orientation = Coordinate.UP;
+			if(oldDirection == LEFT) {
+				oldHead.orientation = Coordinate.CORNER3;
+			} else if (oldDirection == RIGHT) {
+				oldHead.orientation = Coordinate.CORNER4;
+			}
 		} else if (direction == DOWN) {
 			newHead.x = oldHead.x;
 			newHead.y = oldHead.y + 1;
+			newHead.orientation = Coordinate.DOWN;
+			if(oldDirection == LEFT) {
+				oldHead.orientation = Coordinate.CORNER1;
+			} else if (oldDirection == RIGHT) {
+				oldHead.orientation = Coordinate.CORNER2;
+			}
 		} else if (direction == LEFT) {
 			newHead.x = oldHead.x - 1;
 			newHead.y = oldHead.y;
+			newHead.orientation = Coordinate.LEFT;
+			if(oldDirection == UP) {
+				oldHead.orientation = Coordinate.CORNER2;
+			} else if (oldDirection == DOWN) {
+				oldHead.orientation = Coordinate.CORNER4;
+			}
 		} else {
 			newHead.x = oldHead.x + 1;
 			newHead.y = oldHead.y;
+			newHead.orientation = Coordinate.RIGHT;
+			if(oldDirection == UP) {
+				oldHead.orientation = Coordinate.CORNER1;
+			} else if (oldDirection == DOWN) {
+				oldHead.orientation = Coordinate.CORNER3;
+			}
 		}
 		
 		if(newHead.x < 0)
@@ -376,7 +396,7 @@ public class GameState {
 		for(int i = 0 ; i < featureList.size() ; i++) {
 			Feature f = featureList.get(i);
 			// Check for apple collision
-			if ((f.coordinate.equals(newHead)) && (f.type == FOOD)) {
+			if ((f.coordinate.equals(newHead)) && (f.type == Feature.FOOD)) {
 				grow = true;
 				if (sizeIncrease > 0) {
 					superGrow = SIZE_MULTIPLIER;
@@ -391,7 +411,7 @@ public class GameState {
 			}
 			
 			//check for size increase collision
-			if ((f.coordinate.equals(newHead)) && (f.type == SIZE_INCREASE)) {
+			if ((f.coordinate.equals(newHead)) && (f.type == Feature.SIZE_INCREASE)) {
 				featureList.remove(i);
 				sizeIncrease = SIZE_INCREASE_DURATION;
 
@@ -399,7 +419,7 @@ public class GameState {
 			}
 			
 			//check for size decrease collision
-			if ((f.coordinate.equals(newHead)) && (f.type == SIZE_DECREASE)) {
+			if ((f.coordinate.equals(newHead)) && (f.type == Feature.SIZE_DECREASE)) {
 				featureList.remove(i);
 				int count = SIZE_DECREASE_AMT;
 				while (count > 0) {
@@ -423,74 +443,6 @@ public class GameState {
 			superGrow--;
 		}
 		
-
-		
 	}
-	
-	/**
-	 * Clear grid at start
-	 */
-	private void clearGrid() {
-		for(int i = 0 ; i < X_COUNT ; i++) {
-			for(int j = 0 ; j < Y_COUNT ; j++) {
-				grid[i][j] = EMPTY;
-			}
-		}
-	}
-	
-	private void generateGrid() {
-		for (Feature f : featureList) {
-			grid[f.coordinate.x][f.coordinate.y] = f.type;	
-		}
-		for (Coordinate c : snakeList) {
-			grid[c.x][c.y] = SNAKE;		
-		}
-	}
-	
-	public int getCell(int x, int y) {
-		return grid[x][y];
-	}
-	
-	
-	
-	private class Feature {
-		public Coordinate coordinate;
-		public int type;
-		//cycles remaining is how long left the feature has until it dies
-		//if it is set to -1, then it will last forever
-		public int cyclesRemaining;
-		public Feature (Coordinate co, int type) {
-			this.coordinate = co;
-			this.type = type;
-			cyclesRemaining = -1;
-		}
-		public Feature (Coordinate co, int type, int cycles) {
-			this.coordinate = co;
-			this.type = type;
-			cyclesRemaining = cycles;
-		}	
-	}
-	
-    private class Coordinate {
-        public int x;
-        public int y;
-
-        public Coordinate(int newX, int newY) {
-            x = newX;
-            y = newY;
-        }
-
-        public boolean equals(Coordinate other) {
-            if (x == other.x && y == other.y) {
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public String toString() {
-            return "Coordinate: [" + x + "," + y + "]";
-        }
-    }
     
 }
