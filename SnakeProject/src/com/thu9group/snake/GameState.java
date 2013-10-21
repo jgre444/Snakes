@@ -375,15 +375,16 @@ public class GameState {
 			}
 		}
 		
-		if(newHead.x < 0)
-			newHead.x = X_COUNT - 1;
-		else if (newHead.x >= X_COUNT)
-			newHead.x = 0;
-		if(newHead.y < 0)
-			newHead.y = Y_COUNT - 1;
-		else if (newHead.y >= Y_COUNT)
-			newHead.y = 0;
-		
+		if(!wallsEnabled) {
+			if(newHead.x < 0)
+				newHead.x = X_COUNT - 1;
+			else if (newHead.x >= X_COUNT)
+				newHead.x = 0;
+			if(newHead.y < 0)
+				newHead.y = Y_COUNT - 1;
+			else if (newHead.y >= Y_COUNT)
+				newHead.y = 0;
+		}
 		return newHead;
 	}
 	
@@ -395,6 +396,7 @@ public class GameState {
 		boolean grow = false;
 		for(int i = 0 ; i < featureList.size() ; i++) {
 			Feature f = featureList.get(i);
+			
 			// Check for apple collision
 			if ((f.coordinate.equals(newHead)) && (f.type == Feature.FOOD)) {
 				grow = true;
@@ -430,7 +432,14 @@ public class GameState {
 				}
 
 				break;
-			}			
+			}
+			
+			//check for obstacle collision
+			if ((f.coordinate.equals(newHead)) && (f.type == Feature.OBSTACLE)) {
+				gameOver = true;
+
+				break;
+			}
 		}
 		
 

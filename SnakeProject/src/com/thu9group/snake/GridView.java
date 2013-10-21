@@ -41,7 +41,7 @@ public class GridView extends View {
 		
 		r = new RectF();
 		paint = new Paint();
-		setBackgroundColor(Color.WHITE);
+		setBackgroundColor(0xFF5D8960);
 	}
     	
 	/*
@@ -59,7 +59,7 @@ public class GridView extends View {
 		
 		wall.set(0, 0, xOffset, h);
 		canvas.drawRect(wall, paint);
-		wall.set(0, 0, w, yOffset);
+		wall.set(0, yOffset, w, 0);
 		canvas.drawRect(wall, paint);
 		wall.set(w-xOffset, 0, w, h);
 		canvas.drawRect(wall,paint);
@@ -92,8 +92,14 @@ public class GridView extends View {
 			} else {
 				paint.setColor(Color.MAGENTA);
 			}
+			int left, top, right, bottom;
+			left = c.x*xCellSize + xOffset;
+			right = (c.x+1)*xCellSize + xOffset;
 			
-			r.set(c.x*xCellSize + xOffset, c.y*yCellSize + yOffset, (c.x+1)*xCellSize + xOffset, (c.y+1)*yCellSize + yOffset);
+			top = c.y*yCellSize + yOffset;
+			bottom = (c.y+1)*yCellSize + yOffset;
+			
+			r.set(left, top, right, bottom);
 			canvas.drawRect(r, paint);
 
 		}		
@@ -106,55 +112,55 @@ public class GridView extends View {
 		int bottom, top, left, right;
 		
 		if (orientation == Coordinate.LEFT || orientation == Coordinate.RIGHT) {
-			left = c.x * xCellSize;
-			right = (c.x+1)*xCellSize;
-			bottom = c.y*yCellSize+ySnakeIndent;
-			top = (c.y+1)*yCellSize-ySnakeIndent;
-			r.set(left, bottom, right, top);
+			left = c.x * xCellSize + xOffset;
+			right = (c.x+1)*xCellSize + xOffset;
+			top = c.y*yCellSize+ySnakeIndent + yOffset;
+			bottom = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
+			r.set(left, top, right, bottom);
 			canvas.drawRect(r, paint);
 		} else if (orientation == Coordinate.UP || orientation == Coordinate.DOWN) {
-			left = c.x * xCellSize+xSnakeIndent;
-			right = (c.x+1)*xCellSize-xSnakeIndent;
-			bottom = c.y*yCellSize;
-			top = (c.y+1)*yCellSize;
+			left = c.x * xCellSize+xSnakeIndent + xOffset;
+			right = (c.x+1)*xCellSize-xSnakeIndent + xOffset;
+			bottom = c.y*yCellSize + yOffset;
+			top = (c.y+1)*yCellSize + yOffset;
 			r.set(left, bottom, right, top);
 			canvas.drawRect(r, paint);
 		} else if (orientation >= Coordinate.CORNER1 && orientation <= Coordinate.CORNER4) {
-			left = c.x * xCellSize+xSnakeIndent;
-			right = (c.x+1)*xCellSize-xSnakeIndent;
-			bottom = c.y*yCellSize+ySnakeIndent;
-			top = (c.y+1)*yCellSize-ySnakeIndent;
+			left = c.x * xCellSize+xSnakeIndent + xOffset;
+			right = (c.x+1)*xCellSize-xSnakeIndent + xOffset;
+			bottom = c.y*yCellSize+ySnakeIndent + yOffset;
+			top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
 			r.set(left, bottom, right, top);
 			canvas.drawRect(r, paint);
 			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER2) {
-				left = c.x * xCellSize+xSnakeIndent;
-				right = (c.x+1)*xCellSize-xSnakeIndent;
-				bottom = (c.y+1)*yCellSize-ySnakeIndent;
-				top = (c.y+1)*yCellSize;
+				left = c.x * xCellSize+xSnakeIndent+ xOffset;
+				right = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
+				bottom = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
+				top = (c.y+1)*yCellSize + yOffset;
 				r.set(left, bottom, right, top);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER3 || orientation == Coordinate.CORNER4) {
-				left = c.x * xCellSize+xSnakeIndent;
-				right = (c.x+1)*xCellSize-xSnakeIndent;
-				bottom = (c.y)*yCellSize;
-				top = (c.y)*yCellSize+ySnakeIndent;
+				left = c.x * xCellSize+xSnakeIndent+ xOffset;
+				right = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
+				bottom = (c.y)*yCellSize + yOffset;
+				top = (c.y)*yCellSize+ySnakeIndent + yOffset;
 				r.set(left, bottom, right, top);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER3) {
-				left = (c.x+1)*xCellSize-xSnakeIndent;
-				right = (c.x+1)*xCellSize;
-				bottom = c.y*yCellSize+ySnakeIndent;
-				top = (c.y+1)*yCellSize-ySnakeIndent;
+				left = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
+				right = (c.x+1)*xCellSize+ xOffset;
+				bottom = c.y*yCellSize+ySnakeIndent + yOffset;
+				top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
 				r.set(left, bottom, right, top);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER2 || orientation == Coordinate.CORNER4) {
-				left = c.x*xCellSize;
-				right = c.x*xCellSize+xSnakeIndent;
-				bottom = c.y*yCellSize+ySnakeIndent;
-				top = (c.y+1)*yCellSize-ySnakeIndent;
+				left = c.x*xCellSize+ xOffset;
+				right = c.x*xCellSize+xSnakeIndent+ xOffset;
+				bottom = c.y*yCellSize+ySnakeIndent + yOffset;
+				top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
 				r.set(left, bottom, right, top);
 				canvas.drawRect(r, paint);
 			}

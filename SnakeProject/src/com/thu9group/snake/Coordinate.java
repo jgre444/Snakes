@@ -1,6 +1,5 @@
 package com.thu9group.snake;
 
-import android.graphics.RectF;
 
 public class Coordinate {
     public int x;
