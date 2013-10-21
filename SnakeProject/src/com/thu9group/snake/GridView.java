@@ -26,9 +26,13 @@ public class GridView extends View {
     
     private int xSnakeIndent;
     private int ySnakeIndent;
-        
+     
     private int w;
     private int h;
+    
+    private final static int GRASS = 0xAA5D8960;
+    private static final int SNAKE_BODY = 0XFF255C3D;
+    private static final int SNAKE_EDGE =  0xFF085027; 
     
 
     /*
@@ -41,7 +45,7 @@ public class GridView extends View {
 		
 		r = new RectF();
 		paint = new Paint();
-		setBackgroundColor(0xFF5D8960);
+		setBackgroundColor(GRASS);
 	}
     	
 	/*
@@ -57,9 +61,9 @@ public class GridView extends View {
 		paint.setColor(Color.BLACK);
 		RectF wall = new RectF();
 		
-		wall.set(0, 0, xOffset, h);
+		wall.set(0, 0, w, yOffset);
 		canvas.drawRect(wall, paint);
-		wall.set(0, yOffset, w, 0);
+		wall.set(0, 0, xOffset, h);
 		canvas.drawRect(wall, paint);
 		wall.set(w-xOffset, 0, w, h);
 		canvas.drawRect(wall,paint);
@@ -70,10 +74,11 @@ public class GridView extends View {
 		// Draw the snake
 		ArrayList<Coordinate> snakeList = gameState.getSnakeList();
 		
-
-		for(Coordinate c : snakeList) {
-			drawSnakeBody(c, canvas);
+		drawSnakeHead(snakeList.get(0), canvas);
+		for(int i = 1 ;  i < snakeList.size() - 1 ; i++) {
+			drawSnakeBody(snakeList.get(i), canvas);
 		}
+		drawSnakeTail(snakeList.get(snakeList.size()-1), snakeList.get(snakeList.size()-2), canvas);
         
 		// Draw features
 		ArrayList<Feature> featureList = gameState.getFeatureList();
@@ -105,65 +110,318 @@ public class GridView extends View {
 		}		
 	}
 	
+	private void drawSnakeHead(Coordinate c, Canvas canvas) {
+		int orientation = c.orientation;
+		int boxleft, boxright, boxtop, boxbottom;
+		
+		boxleft = c.x*xCellSize + xOffset;
+		boxright = (c.x+1)*xCellSize + xOffset;
+		boxtop = c.y*yCellSize + yOffset;
+		boxbottom = (c.y+1)*yCellSize + yOffset;
+		
+		r.set(boxleft + xSnakeIndent, boxtop+ySnakeIndent, boxright-xSnakeIndent, boxbottom-ySnakeIndent);
+		paint.setColor(SNAKE_BODY);
+		canvas.drawRect(r, paint);
+		
+		if(orientation == Coordinate.UP) {
+			r.top = r.bottom;
+			r.bottom = boxbottom;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxright-xSnakeIndent, boxtop+2*ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxleft + 2*xSnakeIndent, boxbottom);
+			canvas.drawRect(r, paint);
+			r.set(boxright - 2* xSnakeIndent, boxtop + ySnakeIndent, boxright - xSnakeIndent, boxbottom);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_BODY);
+			
+			paint.setColor(Color.WHITE);
+			r.left = boxleft + 3*xSnakeIndent;
+			r.right = r.left + (3*xSnakeIndent)/2;
+			r.top = boxtop + 3*ySnakeIndent;
+			r.bottom = r.top + 2*ySnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			r.right = boxright - 3*xSnakeIndent;
+			r.left = r.right - (3*xSnakeIndent)/2;
+			canvas.drawRect(r, paint);
+		} else if (orientation == Coordinate.DOWN) {
+			r.bottom = r.top;
+			r.top = boxtop;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft + xSnakeIndent, boxbottom - 2*ySnakeIndent, boxright-xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxleft + xSnakeIndent, boxtop, boxleft + 2*xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxright - 2* xSnakeIndent, boxtop, boxright - xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_BODY);
+			
+			paint.setColor(Color.WHITE);
+			r.left = boxleft + 3*xSnakeIndent;
+			r.right = r.left + (3*xSnakeIndent)/2;
+			r.bottom = boxbottom - 3*ySnakeIndent;
+			r.top = r.bottom - 2*ySnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			r.right = boxright - 3*xSnakeIndent;
+			r.left = r.right - (3*xSnakeIndent)/2;
+			canvas.drawRect(r, paint);
+		} else if (orientation == Coordinate.LEFT) {
+			r.left = r.right;
+			r.right = boxright;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.left = boxleft+xSnakeIndent;
+			r.top = boxtop + ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxbottom - 2*ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxtop + ySnakeIndent;
+			r.right = r.left + xSnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			paint.setColor(Color.WHITE);
+			r.top = boxtop + 3*ySnakeIndent;
+			r.bottom = r.top + (3*ySnakeIndent)/2;
+			r.left = boxleft + 3*xSnakeIndent;
+			r.right = r.left + 2*xSnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			r.bottom = boxbottom - 3*ySnakeIndent;
+			r.top = r.bottom - (3*ySnakeIndent)/2;
+			canvas.drawRect(r, paint);
+			
+		} else {
+			r.right = r.left;
+			r.left = boxleft;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.left = boxright - 2*xSnakeIndent;
+			r.right = r.left + xSnakeIndent;
+			r.top = boxtop + ySnakeIndent;
+			r.bottom = boxbottom - ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.left = boxleft;
+			r.right = boxright - ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxbottom - 2*ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			paint.setColor(Color.WHITE);
+			r.top = boxtop + 3*ySnakeIndent;
+			r.bottom = r.top + (3*ySnakeIndent)/2;
+			r.right = boxright - 3*xSnakeIndent;
+			r.left = r.right - 2*xSnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			r.bottom = boxbottom - 3*ySnakeIndent;
+			r.top = r.bottom - (3*ySnakeIndent)/2;
+			canvas.drawRect(r, paint);
+			
+			
+		}
+
+	}
+	
+	private void drawSnakeTail(Coordinate tail, Coordinate oldtail, Canvas canvas) {
+		int orientation = tail.orientation;
+		int boxleft, boxright, boxtop, boxbottom;
+		
+		
+		if(oldtail.x > tail.x)
+			orientation = Coordinate.LEFT;
+		else if (oldtail.x < tail.x)
+			orientation = Coordinate.RIGHT;
+		else if (oldtail.y < tail.y) 
+			orientation = Coordinate.DOWN;
+		else
+			orientation = Coordinate.UP;
+	
+		
+		boxleft = tail.x*xCellSize + xOffset;
+		boxright = (tail.x+1)*xCellSize + xOffset;
+		boxtop = tail.y*yCellSize + yOffset;
+		boxbottom = (tail.y+1)*yCellSize + yOffset;
+		
+		r.set(boxleft + xSnakeIndent, boxtop+ySnakeIndent, boxright-xSnakeIndent, boxbottom-ySnakeIndent);
+		paint.setColor(SNAKE_BODY);
+		canvas.drawRect(r, paint);
+		
+		if(orientation == Coordinate.UP) {
+			r.top = r.bottom;
+			r.bottom = boxbottom;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxright-xSnakeIndent, boxtop+2*ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxleft + 2*xSnakeIndent, boxbottom);
+			canvas.drawRect(r, paint);
+			r.set(boxright - 2* xSnakeIndent, boxtop + ySnakeIndent, boxright - xSnakeIndent, boxbottom);
+			canvas.drawRect(r, paint);
+
+			
+		} else if (orientation == Coordinate.DOWN) {
+			r.bottom = r.top;
+			r.top = boxtop;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft + xSnakeIndent, boxbottom - 2*ySnakeIndent, boxright-xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxleft + xSnakeIndent, boxtop, boxleft + 2*xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxright - 2* xSnakeIndent, boxtop, boxright - xSnakeIndent, boxbottom - ySnakeIndent);
+			canvas.drawRect(r, paint);
+
+		} else if (orientation == Coordinate.LEFT) {
+			r.left = r.right;
+			r.right = boxright;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.left = boxleft+xSnakeIndent;
+			r.top = boxtop + ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxbottom - 2*ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxtop + ySnakeIndent;
+			r.right = r.left + xSnakeIndent;
+			canvas.drawRect(r, paint);
+			
+			
+		} else {
+			r.right = r.left;
+			r.left = boxleft;
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.left = boxright - 2*xSnakeIndent;
+			r.right = r.left + xSnakeIndent;
+			r.top = boxtop + ySnakeIndent;
+			r.bottom = boxbottom - ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.left = boxleft;
+			r.right = boxright - ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			r.top = boxbottom - 2*ySnakeIndent;
+			r.bottom = r.top + ySnakeIndent;
+			canvas.drawRect(r, paint);
+			
+		}
+		
+		
+	}
 	
 	private void drawSnakeBody(Coordinate c, Canvas canvas) {
 		int orientation = c.orientation;
-		paint.setColor(Color.DKGRAY);
-		int bottom, top, left, right;
+		paint.setColor(SNAKE_BODY);
+		int boxleft, boxright, boxtop, boxbottom;
+		
+		boxleft = c.x*xCellSize+xOffset;
+		boxright = (c.x+1)*xCellSize+xOffset;
+		boxtop = c.y*yCellSize+yOffset;
+		boxbottom = (c.y+1)*yCellSize+yOffset;
 		
 		if (orientation == Coordinate.LEFT || orientation == Coordinate.RIGHT) {
-			left = c.x * xCellSize + xOffset;
-			right = (c.x+1)*xCellSize + xOffset;
-			top = c.y*yCellSize+ySnakeIndent + yOffset;
-			bottom = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
-			r.set(left, top, right, bottom);
+			r.set(boxleft, boxtop+ySnakeIndent, boxright, boxbottom-ySnakeIndent);
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft, boxtop+ySnakeIndent, boxright, boxtop+2*ySnakeIndent);
+			canvas.drawRect(r, paint);
+			r.set(boxleft, boxbottom-2*ySnakeIndent, boxright, boxbottom-ySnakeIndent);
 			canvas.drawRect(r, paint);
 		} else if (orientation == Coordinate.UP || orientation == Coordinate.DOWN) {
-			left = c.x * xCellSize+xSnakeIndent + xOffset;
-			right = (c.x+1)*xCellSize-xSnakeIndent + xOffset;
-			bottom = c.y*yCellSize + yOffset;
-			top = (c.y+1)*yCellSize + yOffset;
-			r.set(left, bottom, right, top);
+			r.set(boxleft+xSnakeIndent, boxtop, boxright-xSnakeIndent, boxbottom);
+			paint.setColor(SNAKE_BODY);
+			canvas.drawRect(r, paint);
+			paint.setColor(SNAKE_EDGE);
+			r.set(boxleft+xSnakeIndent, boxtop, boxleft + 2*xSnakeIndent, boxbottom);
+			canvas.drawRect(r, paint);
+			r.set(boxright-2*xSnakeIndent, boxtop, boxright - xSnakeIndent, boxbottom);
 			canvas.drawRect(r, paint);
 		} else if (orientation >= Coordinate.CORNER1 && orientation <= Coordinate.CORNER4) {
-			left = c.x * xCellSize+xSnakeIndent + xOffset;
-			right = (c.x+1)*xCellSize-xSnakeIndent + xOffset;
-			bottom = c.y*yCellSize+ySnakeIndent + yOffset;
-			top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
-			r.set(left, bottom, right, top);
+			
+			r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxright - xSnakeIndent, boxbottom - ySnakeIndent);
+			paint.setColor(SNAKE_BODY);
 			canvas.drawRect(r, paint);
+			if(orientation == Coordinate.CORNER1) {
+				paint.setColor(SNAKE_EDGE);
+				r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxright, boxtop + 2*ySnakeIndent);
+				canvas.drawRect(r, paint);
+				r.set(boxleft + xSnakeIndent, boxtop + ySnakeIndent, boxleft + 2*xSnakeIndent, boxbottom);
+				canvas.drawRect(r,  paint);
+				r.set(boxright-2*xSnakeIndent, boxbottom-2*ySnakeIndent, boxright, boxbottom-ySnakeIndent);
+				canvas.drawRect(r, paint);
+				r.set(boxright-2*xSnakeIndent, boxbottom-ySnakeIndent, boxright-xSnakeIndent, boxbottom);
+				canvas.drawRect(r, paint);
+			} else if (orientation == Coordinate.CORNER2) {
+				paint.setColor(SNAKE_EDGE);
+				r.set(boxleft, boxtop+ySnakeIndent, boxright - xSnakeIndent, boxtop+2*ySnakeIndent);
+				canvas.drawRect(r, paint);
+				r.set(boxleft, boxbottom - 2*ySnakeIndent, boxleft+2*xSnakeIndent, boxbottom - ySnakeIndent);
+				canvas.drawRect(r,paint);
+				r.set(boxright-2*xSnakeIndent, boxtop+ySnakeIndent, boxright-xSnakeIndent, boxbottom);
+				canvas.drawRect(r,paint);
+				r.set(boxleft+xSnakeIndent, boxbottom-ySnakeIndent, boxleft+2*xSnakeIndent, boxbottom);
+				canvas.drawRect(r,paint);				
+			} else if (orientation == Coordinate.CORNER3) {
+				paint.setColor(SNAKE_EDGE);
+				r.set(boxright-2*xSnakeIndent, boxtop+ySnakeIndent, boxright, boxtop+2*ySnakeIndent);
+				canvas.drawRect(r, paint);
+				r.set(boxleft + xSnakeIndent, boxbottom - 2*ySnakeIndent, boxright, boxbottom - ySnakeIndent);
+				canvas.drawRect(r,paint);
+				r.set(boxright-2*xSnakeIndent, boxtop, boxright-xSnakeIndent, boxtop + 2*ySnakeIndent);
+				canvas.drawRect(r,paint);
+				r.set(boxleft+xSnakeIndent, boxtop, boxleft+2*xSnakeIndent, boxbottom - ySnakeIndent);
+				canvas.drawRect(r,paint);
+			} else {
+				paint.setColor(SNAKE_EDGE);
+				r.set(boxright-2*xSnakeIndent, boxtop, boxright - xSnakeIndent, boxbottom - ySnakeIndent);
+				canvas.drawRect(r, paint);
+				r.set(boxleft, boxbottom - 2*ySnakeIndent, boxright - xSnakeIndent, boxbottom - ySnakeIndent);
+				canvas.drawRect(r,paint);
+				r.set(boxleft, boxtop + ySnakeIndent, boxleft + 2*xSnakeIndent, boxtop + 2*ySnakeIndent);
+				canvas.drawRect(r,paint);
+				r.set(boxleft+xSnakeIndent, boxtop, boxleft+2*xSnakeIndent, boxtop + ySnakeIndent);
+				canvas.drawRect(r,paint);
+			}
 			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER2) {
-				left = c.x * xCellSize+xSnakeIndent+ xOffset;
-				right = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
-				bottom = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
-				top = (c.y+1)*yCellSize + yOffset;
-				r.set(left, bottom, right, top);
+				paint.setColor(SNAKE_BODY);
+				r.set(boxleft + 2*xSnakeIndent, boxbottom - ySnakeIndent, boxright-2*xSnakeIndent, boxbottom);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER3 || orientation == Coordinate.CORNER4) {
-				left = c.x * xCellSize+xSnakeIndent+ xOffset;
-				right = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
-				bottom = (c.y)*yCellSize + yOffset;
-				top = (c.y)*yCellSize+ySnakeIndent + yOffset;
-				r.set(left, bottom, right, top);
+				paint.setColor(SNAKE_BODY);
+				r.set(boxleft + 2*xSnakeIndent, boxtop, boxright-2*xSnakeIndent, boxtop+ySnakeIndent);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER1 || orientation == Coordinate.CORNER3) {
-				left = (c.x+1)*xCellSize-xSnakeIndent+ xOffset;
-				right = (c.x+1)*xCellSize+ xOffset;
-				bottom = c.y*yCellSize+ySnakeIndent + yOffset;
-				top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
-				r.set(left, bottom, right, top);
+				paint.setColor(SNAKE_BODY);
+				r.set(boxright-xSnakeIndent, boxtop+2*ySnakeIndent, boxright, boxbottom - 2*ySnakeIndent);
 				canvas.drawRect(r, paint);
 			}
 			if (orientation == Coordinate.CORNER2 || orientation == Coordinate.CORNER4) {
-				left = c.x*xCellSize+ xOffset;
-				right = c.x*xCellSize+xSnakeIndent+ xOffset;
-				bottom = c.y*yCellSize+ySnakeIndent + yOffset;
-				top = (c.y+1)*yCellSize-ySnakeIndent + yOffset;
-				r.set(left, bottom, right, top);
+				paint.setColor(SNAKE_BODY);
+				r.set(boxleft, boxtop+2*ySnakeIndent, boxleft+xSnakeIndent, boxbottom - 2*ySnakeIndent);
 				canvas.drawRect(r, paint);
 			}
+			
 		}
 	}
 	
