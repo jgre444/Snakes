@@ -30,6 +30,7 @@ public class Grid extends Activity implements Runnable {
 	private GestureDetectorCompat mDetector;
 	public ScoreView score;
 	public Button pause;
+	private Button menu;
 	private Thread gameThread;
     private long lastUpdate;
     private GameOverHandler mHandler;
@@ -62,8 +63,20 @@ public class Grid extends Activity implements Runnable {
 		setContentView(gameLayout, glp);
 
 		pause = new Button(this);
+		menu = new Button(this);
+		menu.setText("MENU");
 		pause.setText("PAUSE");
 		topLayout.addView(pause, tlp);
+		topLayout.addView(menu, tlp);
+		menu.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent newIntent = new Intent(Grid.this,GameOver.class);
+				startActivity(newIntent);
+				
+			}
+		});
 		pause.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
                 if (gameState.state == gameState.RUNNING) {
