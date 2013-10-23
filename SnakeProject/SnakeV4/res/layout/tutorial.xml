@@ -26,30 +26,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
-    <Button
-        android:id="@+id/menuTut"
+
+         <Button
+             android:id="@+id/menuTut"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Menu" />
+
+    <ImageView
+        android:id="@+id/left_arrow_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Menu" />
-    
+        android:layout_marginLeft="40dip"
+        android:src="@drawable/arrowleft"
+        android:text="left" />
+
     <ImageView
-            android:id="@+id/left_arrow_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dip"
-            android:src="@drawable/arrowleft" >
-	</ImageView>
-    
-     <ImageView android:id="@+id/right_arrow_imageview" 
-                 android:layout_width="wrap_content" 
-                 android:layout_height="wrap_content" 
-                 android:layout_alignParentRight="true" 
-                 android:layout_centerVertical="true" 
-                 android:layout_marginRight="40dip" 
-                 android:src="@drawable/arrowright">
-        </ImageView>
+        android:id="@+id/right_arrow_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dip"
+        android:src="@drawable/arrowright"
+        android:text="right" />
+
 </LinearLayout>
 </RelativeLayout>

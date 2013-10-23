@@ -4,14 +4,16 @@ import com.thu9group.snake.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Credit extends Activity  implements View.OnClickListener{
 	
 	private Button mainMenu;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,6 +21,8 @@ public class Credit extends Activity  implements View.OnClickListener{
 		mainMenu=(Button)findViewById(R.id.menu3);
 		mainMenu.setOnClickListener(this);
 		
+		
+
 	}
 
 	@Override

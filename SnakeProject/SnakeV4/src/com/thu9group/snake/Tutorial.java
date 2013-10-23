@@ -117,6 +117,7 @@ public class Tutorial extends Activity  implements View.OnClickListener {
 		
 		case R.id.menuTut:
 				Intent newIntent = new Intent(this, MainActivity.class);
+				newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(newIntent);
 		    	break;
 		
