@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sample"
+    package="com.thu9group.snake"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -15,7 +15,7 @@
         android:logo="@drawable/logo"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.Snake.MainActivity"
+            android:name="com.thu9group.snake.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.OptionMenu"
+            android:name="com.thu9group.snake.OptionMenu"
+			android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.Snake.OptionMenu" />
@@ -33,7 +34,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.Credit"
+            android:name="com.thu9group.snake.Credit"
+			android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.Snake.Credit" />
@@ -42,7 +44,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.Tutorial"
+            android:name="com.thu9group.snake.Tutorial"
+			android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.Snake.Tutorial" />
@@ -51,7 +54,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.HighScores"
+            android:name="com.thu9group.snake.HighScores"
+			android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.Snake.HighScores" />
@@ -60,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.Grid"
+            android:name="com.thu9group.snake.Grid"
 			android:noHistory="true"
             android:label="@string/app_name" >
             <intent-filter>
@@ -70,7 +74,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Snake.GameOver"
+            android:name="com.thu9group.snake.GameOver"
             android:label="@string/title_activity_game_over"
 			android:noHistory="true"
             android:parentActivityName="com.example.Snake.MainActivity" >

@@ -12,9 +12,9 @@
         android:id="@+id/endScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
+        android:layout_alignTop="@+id/scoreHeading"
         android:layout_centerHorizontal="true"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
     <Button
         android:id="@+id/returnHome"
@@ -26,21 +26,13 @@
         android:text="Menu" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/scoreHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Name	| Score"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
-    <Button
-        android:id="@+id/deleteScores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/returnHome"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/endScore"
-        android:text="Delete Scores" />
+    
 
 </RelativeLayout>

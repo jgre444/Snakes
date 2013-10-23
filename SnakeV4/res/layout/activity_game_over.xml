@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/optionmenu"
     tools:context=".GameOver" >
 
     <Button
@@ -26,13 +27,21 @@
         android:layout_alignParentTop="true"
         android:text="Game over!"
         android:textSize="24dp" />
+     <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter your name below, max name length is 6 characters"
+         android:layout_alignLeft="@+id/TextView01"
+        android:layout_below="@+id/TextView01"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/endScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_below="@+id/TextView01"
+        android:layout_alignLeft="@+id/TextView02"
+        android:layout_below="@+id/TextView02"
         android:layout_marginTop="79dp"
         android:text="___"
         android:textSize="20dp" />
@@ -44,7 +53,8 @@
         android:layout_alignBottom="@+id/endScore"
         android:layout_alignLeft="@+id/endScore"
         android:layout_marginBottom="32dp"
-        android:ems="10" >
+        android:ems="10" 
+        android:maxLength="6">
 
         <requestFocus />
     </EditText>
