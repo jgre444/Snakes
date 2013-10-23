@@ -51,7 +51,7 @@ containing a value of this type.
     public static final class id {
         public static final int TextView01=0x7f080002;
         public static final int TextView02=0x7f080003;
-        public static final int action_settings=0x7f08001f;
+        public static final int action_settings=0x7f080022;
         public static final int button2=0x7f080008;
         public static final int button3=0x7f080009;
         public static final int button4=0x7f08000a;
@@ -61,25 +61,28 @@ containing a value of this type.
         public static final int db1_root=0x7f080007;
         public static final int editText1=0x7f080004;
         public static final int endScore=0x7f080001;
-        public static final int gallery=0x7f080019;
-        public static final int gallery_relative_layout=0x7f08001b;
+        public static final int gallery=0x7f08001c;
+        public static final int gallery_relative_layout=0x7f08001e;
         public static final int gameOverButton=0x7f080000;
-        public static final int home2=0x7f080011;
-        public static final int imageShower=0x7f08001a;
-        public static final int left_arrow_imageview=0x7f08001d;
+        public static final int home2=0x7f080014;
+        public static final int imageShower=0x7f08001d;
+        public static final int left_arrow_imageview=0x7f080020;
         public static final int menu3=0x7f08000e;
-        public static final int menuTut=0x7f08001c;
-        public static final int radioButton1=0x7f080014;
-        public static final int radioButton2=0x7f080015;
-        public static final int radioButton3=0x7f080016;
-        public static final int radioSelection=0x7f080013;
-        public static final int returnHome=0x7f080010;
-        public static final int right_arrow_imageview=0x7f08001e;
-        public static final int scoreDisplay=0x7f080018;
+        public static final int menuTut=0x7f08001f;
+        public static final int nameText=0x7f080011;
+        public static final int radioButton1=0x7f080017;
+        public static final int radioButton2=0x7f080018;
+        public static final int radioButton3=0x7f080019;
+        public static final int radioSelection=0x7f080016;
+        public static final int returnHome=0x7f080013;
+        public static final int right_arrow_imageview=0x7f080021;
+        public static final int scoreDisplay=0x7f08001b;
         public static final int scoreHeading=0x7f08000f;
-        public static final int setLevel=0x7f080012;
+        public static final int scoreText=0x7f080012;
+        public static final int score_layout=0x7f080010;
+        public static final int setLevel=0x7f080015;
         public static final int submitScore=0x7f080005;
-        public static final int textView11=0x7f080017;
+        public static final int textView11=0x7f08001a;
         public static final int txtDisplay=0x7f080006;
     }
     public static final class layout {
@@ -138,7 +141,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #HelloGallery_android_galleryItemBackground com.thu9group.snake:android_galleryItemBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #HelloGallery_android_galleryItemBackground android:galleryItemBackground}</code></td><td></td></tr>
            </table>
            @see #HelloGallery_android_galleryItemBackground
          */
@@ -146,9 +149,9 @@ containing a value of this type.
             0x0101004c
         };
         /**
-          <p>This symbol is the offset where the {@link com.thu9group.snake.R.attr#android_galleryItemBackground}
+          <p>This symbol is the offset where the {@link android.R.attr#galleryItemBackground}
           attribute's value can be found in the {@link #HelloGallery} array.
-          @attr name android:android_galleryItemBackground
+          @attr name android:galleryItemBackground
         */
         public static final int HelloGallery_android_galleryItemBackground = 0;
         /** Attributes that can be used with a TextViewPlus.
@@ -175,7 +178,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:customFont
+          @attr name com.thu9group.snake:customFont
         */
         public static final int TextViewPlus_customFont = 0;
     };

@@ -17,7 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class HighScores  extends Activity  implements View.OnClickListener{
-	private TextView textview;
+	private TextView nameText;
+	private TextView scoreText;
 	private TextView scoreHeading;
 	private Button delScores;
 	private Button mainMenu;
@@ -27,7 +28,8 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 		setContentView(R.layout.highscores);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		textview=(TextView)findViewById(R.id.endScore);
+		nameText=(TextView)findViewById(R.id.nameText);
+		scoreText=(TextView)findViewById(R.id.scoreText);
 		scoreHeading=(TextView)findViewById(R.id.scoreHeading);
 		mainMenu=(Button)findViewById(R.id.returnHome);
 		mainMenu.setOnClickListener(this);
@@ -42,31 +44,28 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 		InputStreamReader isr = new InputStreamReader(fis);
 		BufferedReader br = new BufferedReader(isr);
 		String aLine = null;
-		String otput = "\n-----------------";
 		int counter = 1;
+		String finalNames = "\n";
+		String finalScores = "\n";
 		while ((aLine=br.readLine())!=null){
-			String name = aLine.split("\t")[0];
-			
-			int nameSize = name.length();
-			String addedString = "  ";
-			for(int ix = nameSize -1; ix < 6; ix++){
-				addedString += " ";
-			}
-			name += addedString;
-			
+			String name = aLine.split("\t")[0];	
 			String score = aLine.split("\t")[1];
-			otput+="\n" + counter+ ". "+ name+"\t" + score;
+			finalNames+="\n" + counter+ ". "+ name;
+			finalScores+= "\n\t" + score;
 			counter+=1;
 			
 		}
 		
 		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
 		scoreHeading.setTypeface(typeHead);
-		scoreHeading.setText("Name\t\t\tScore");
+		scoreHeading.setText("  Name\t\t\tScore\n---------------");
 		
 		Typeface typeScore = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
-		textview.setTypeface(typeScore);
-		textview.setText(otput.toString());
+		nameText.setTypeface(typeScore);
+		nameText.setText(finalNames.toString());
+		
+		scoreText.setTypeface(typeScore);
+		scoreText.setText(finalScores.toString());
 		
 		
 		}catch (IOException e){
