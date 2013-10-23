@@ -138,7 +138,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #HelloGallery_android_galleryItemBackground android:galleryItemBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #HelloGallery_android_galleryItemBackground com.thu9group.snake:android_galleryItemBackground}</code></td><td></td></tr>
            </table>
            @see #HelloGallery_android_galleryItemBackground
          */
@@ -146,9 +146,9 @@ containing a value of this type.
             0x0101004c
         };
         /**
-          <p>This symbol is the offset where the {@link android.R.attr#galleryItemBackground}
+          <p>This symbol is the offset where the {@link com.thu9group.snake.R.attr#android_galleryItemBackground}
           attribute's value can be found in the {@link #HelloGallery} array.
-          @attr name android:galleryItemBackground
+          @attr name android:android_galleryItemBackground
         */
         public static final int HelloGallery_android_galleryItemBackground = 0;
         /** Attributes that can be used with a TextViewPlus.
@@ -175,7 +175,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.thu9group.snake:customFont
+          @attr name android:customFont
         */
         public static final int TextViewPlus_customFont = 0;
     };
