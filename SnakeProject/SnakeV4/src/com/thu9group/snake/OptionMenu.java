@@ -1,6 +1,10 @@
 package com.thu9group.snake;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import com.thu9group.snake.R;
@@ -18,13 +22,13 @@ import android.widget.TextView;
 
 public class OptionMenu extends Activity implements View.OnClickListener {
 	
-	private RadioGroup radioGroup;
-	private RadioButton radioButton;
+	public RadioGroup radioGroup;
+	public RadioButton radioButton;
 	private TextView text;
-	private int radioId;
+	public int radioId;
 	private Button get;
 	private Button home;
-
+	private String level;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,23 +41,27 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 		text=(TextView)findViewById(R.id.textView11);
 		home.setOnClickListener(this);
 		get.setOnClickListener(this);
+		setRadioLevel();
 		
 		
 	}
-
+	
 	public void updateLevel() {
 		try{
 		radioGroup=(RadioGroup)findViewById(R.id.radioSelection);
 		radioId=radioGroup.getCheckedRadioButtonId();
 		radioButton=(RadioButton)findViewById(radioId);
 		System.err.println("RadioButton: "+ radioButton.getText());
-		String level = "";
+		level = "";
 		if (radioButton.getText().toString().contains("Easy")){
 			level="1";
+			
 		}else if (radioButton.getText().toString().contains("Medium")){
 			level = "2";
+			
 		}else if (radioButton.getText().toString().contains("Hard")){
 			level ="3";
+			
 		}
 		OutputStreamWriter out = new OutputStreamWriter(openFileOutput("level.txt",0));
 		out.write(level.toString());
@@ -64,6 +72,44 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 			e.printStackTrace();
 		}
 
+		
+	}
+	
+	public void setRadioLevel(){
+		String output=" ";
+		int level = 1;
+		try{
+			File file = getBaseContext().getFileStreamPath("level.txt");
+			if (file.exists()){
+				FileInputStream fis = new FileInputStream(file);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader br = new BufferedReader(isr);
+				String aLine = null;
+				output = " ";
+				while ((aLine=br.readLine())!=null){
+					output+=aLine;
+					
+				}
+				System.err.println("output"+output);
+				br.close();
+			}
+		}  catch (IOException e){
+				e.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+
+		if (output.contains("3")){
+			radioButton=(RadioButton)findViewById(R.id.radioButton3);
+			radioButton.setChecked(true);
+		}else if (output.contains("1")){
+			radioButton=(RadioButton)findViewById(R.id.radioButton1);
+			radioButton.setChecked(true);
+		}else if (output.contains("2"))	{
+			radioButton=(RadioButton)findViewById(R.id.radioButton2);
+			radioButton.setChecked(true);
+			
+		}
 		
 	}
 	@Override

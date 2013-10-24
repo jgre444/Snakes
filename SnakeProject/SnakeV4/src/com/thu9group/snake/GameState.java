@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.widget.RadioButton;
+
 
 public class GameState {
 	
@@ -66,7 +68,9 @@ public class GameState {
 	private boolean wallsEnabled = true;
     public Grid activity;
     public int state;
+   
     
+
     private ArrayList<Coordinate> snakeList = new ArrayList<Coordinate>();
     private ArrayList<Feature> featureList = new ArrayList<Feature>();
 	private boolean gameOver = false;
@@ -77,6 +81,7 @@ public class GameState {
     
     public GameState(Grid activity) {
     	this.activity = activity;
+    	
 
         // For now we're just going to load up a short default eastbound snake
         // that's just turned north
@@ -92,6 +97,7 @@ public class GameState {
         
         if (difficulty == EASY) {
         	wallsEnabled = false;
+        	
         	delay = 280;
         	scoreMultiplier = EASY_SCORE_MULTIPLIER;
         } else if (difficulty == MEDIUM){
