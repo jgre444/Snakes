@@ -47,4 +47,13 @@
         android:layout_alignParentLeft="true"
         android:text="Menu" />
 
+    <Button
+        android:id="@+id/resetScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/returnHome"
+        android:layout_alignBottom="@+id/returnHome"
+        android:layout_alignLeft="@+id/score_layout"
+        android:text="Reset Scores" />
+
 </RelativeLayout>

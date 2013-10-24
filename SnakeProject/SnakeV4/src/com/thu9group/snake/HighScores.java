@@ -1,9 +1,11 @@
 package com.thu9group.snake;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import com.thu9group.snake.R;
 
@@ -22,6 +24,7 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 	private TextView scoreHeading;
 	private Button delScores;
 	private Button mainMenu;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,10 +35,27 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 		scoreText=(TextView)findViewById(R.id.scoreText);
 		scoreHeading=(TextView)findViewById(R.id.scoreHeading);
 		mainMenu=(Button)findViewById(R.id.returnHome);
+		delScores = (Button)findViewById(R.id.resetScore);
 		mainMenu.setOnClickListener(this);
+		delScores.setOnClickListener(this);
 		tempDisplay();
 		
 	}
+	
+	public void resetScore(){
+		try{
+			String emptyString = "";
+			OutputStreamWriter out = new OutputStreamWriter(openFileOutput("highscores.txt",0));
+			out.write(emptyString);
+			out.close();
+
+	}catch (IOException e){
+		e.printStackTrace();
+	}
+		
+}
+	
+	
 	//changed this 
 	public void tempDisplay(){
 		try{
@@ -74,9 +94,7 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 
 		
 	}
-	public void deleteScores(){
-		
-	}
+	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
@@ -88,6 +106,9 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 	    	newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);	    	
 	    	startActivity(newIntent);
 	    	break;
+	   case R.id.resetScore:
+		   resetScore();
+		   break;
 	  
 		}
 		
