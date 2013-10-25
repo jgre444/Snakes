@@ -204,7 +204,7 @@ public class GameState {
 		Coordinate newHead = calcNewHead(oldHead);
 		
 		// Check for collision with wall
-		if(newHead.x < 0 || newHead.x > X_COUNT || newHead.y < 0 || newHead.y > Y_COUNT) {
+		if(newHead.x < 0 || newHead.x >= X_COUNT || newHead.y < 0 || newHead.y >= Y_COUNT) {
 			gameOver = true;
 			return;
 		}
