@@ -28,12 +28,12 @@ public class DifficultyView extends TextView {
 
 			while ((aLine=br.readLine())!=null){
 				if(aLine.equals("1")){
-					difficulty = "easy";		
+					difficulty = "(E)";		
 				}else if(aLine.equals("2")){
-					difficulty = "medium";
+					difficulty = "(M)";
 				}
 				else if(aLine.equals("3")){
-					difficulty = "hard";
+					difficulty = "(H)";
 				}
 
 			}
@@ -45,7 +45,7 @@ public class DifficultyView extends TextView {
 	}
 
 	protected void onDraw(Canvas canvas) {
-		this.setText("   LEVEL: " + difficulty);
+		this.setText("   Lvl: " + difficulty);
 		super.onDraw(canvas);
 	}
 

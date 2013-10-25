@@ -20,17 +20,17 @@
         android:id="@+id/score_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/scoreHeading"
         android:layout_alignLeft="@+id/scoreHeading"
+        android:layout_alignTop="@+id/scoreHeading"
         android:layout_centerVertical="true"
-        android:orientation="horizontal"
-          >
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/nameText"
-            android:layout_width="wrap_content"
+            android:layout_width="150dip"
             android:layout_height="wrap_content"
             android:textSize="13sp" />
+
         <TextView
             android:id="@+id/scoreText"
             android:layout_width="wrap_content"
@@ -45,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Menu" />
+        android:background="@drawable/button_background"
+        android:text="Menu"
+        android:textColor="#663300" />
 
     <Button
         android:id="@+id/resetScore"
@@ -53,7 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/returnHome"
         android:layout_alignBottom="@+id/returnHome"
-        android:layout_alignLeft="@+id/score_layout"
-        android:text="Reset Scores" />
+        android:layout_toRightOf="@+id/returnHome"
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/button_background"
+        android:text="Reset Scores"
+        android:textColor="#663300" />
 
 </RelativeLayout>

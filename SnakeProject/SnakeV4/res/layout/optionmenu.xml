@@ -24,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Menu" />
+        android:background="@drawable/button_background"
+        android:text="Menu"
+        android:textColor="#663300" />
 
     <Button
         android:id="@+id/setLevel"
@@ -32,7 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/radioSelection"
         android:layout_centerVertical="true"
-        android:text="Set Level" />
+        android:background="@drawable/button_background"
+        android:text="Set Level"
+        android:textColor="#663300" />
 
     <RadioGroup
         android:id="@+id/radioSelection"
@@ -46,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Easy" />
+            android:text="Easy (E)" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -54,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/radioButton1"
             android:layout_below="@+id/radioButton1"
-            android:text="Medium" />
+            android:text="Medium (M)" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -62,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/setLevel"
             android:layout_below="@+id/radioButton2"
-            android:text="Hard" />
+            android:text="Hard (H)" />
     </RadioGroup>
 
     <TextView

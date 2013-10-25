@@ -21,6 +21,9 @@ public class Credit extends Activity  implements View.OnClickListener{
 		mainMenu=(Button)findViewById(R.id.menu3);
 		mainMenu.setOnClickListener(this);
 		
+		Typeface typeButton = Typeface.createFromAsset(getAssets(),"fonts/woodbadge.ttf"); 
+		mainMenu.setTypeface(typeButton);
+		
 		
 
 	}

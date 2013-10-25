@@ -25,39 +25,56 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Build;
 
 public class GameOver extends Activity implements View.OnClickListener {
 
 
 	private Button submitButton;
+	private Button gameOverButton;//<--- return to main menu button, dont know why its called gameoverbutton in xml, so i went along with it here too 
 	private TextView textDisplay;
+	private TextView goTitle;
 	private EditText name;
 	private int Score;
 	private final int TOP_SCORES = 5;
+	public final static int MAX_LENGTH_NAME= 10;
+	
 	private ArrayList<String> scores;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		
+
 		setContentView(R.layout.activity_game_over);
 		Intent intent = getIntent();
 		scores = new ArrayList<String>();
 		//int score = intent.getIntExtra(Grid.HIGH_SCORE, 0);
 		this.Score= GameState.score;
+		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
+		Typeface typeText = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
+
 		TextView view = (TextView)findViewById(R.id.endScore);
+		goTitle = (TextView)findViewById(R.id.goTitle);
+		view.setTypeface(typeText);
+		goTitle.setTypeface(typeHead);
 		view.setText("Your score was: " + Score);
 		submitButton=(Button)findViewById(R.id.submitScore);
+		gameOverButton = (Button)findViewById(R.id.gameOverButton);
+		Typeface typeButton = Typeface.createFromAsset(getAssets(),"fonts/woodbadge.ttf"); 
+		gameOverButton.setTypeface(typeButton);
+		submitButton.setTypeface(typeButton);
 		submitButton.setEnabled(true);
 		submitButton.setOnClickListener(this);
 		name = (EditText)findViewById(R.id.editText1);
 		textDisplay = (TextView)findViewById(R.id.txtDisplay);
-
+		filterInput();
 	}
 
 	public void onClick (View v){
@@ -70,7 +87,7 @@ public class GameOver extends Activity implements View.OnClickListener {
 				textDisplay.setText("Please enter a valid name");
 			}else{
 				//allow the user to store the score 
-	
+
 				storeScore();
 				textDisplay.setText("Your score has been saved");
 				v.setEnabled(false);
@@ -78,7 +95,30 @@ public class GameOver extends Activity implements View.OnClickListener {
 			break;
 		} 
 	}
+
+
+	private void filterInput() {
+		InputFilter filter = new InputFilter() { 
+			@Override
+			public CharSequence filter(CharSequence source, int start, int end, 
+					Spanned dest, int dstart, int dend) { 
+				for (int i = start; i < end; i++) { 
+					if (!Character.isLetterOrDigit(source.charAt(i))) { 
+						return ""; 
+					} 
+				} 
+				return null; 
+			}
+
+			
+		}; 
+		InputFilter[] filterArray = new InputFilter[2];
+		filterArray[0] = new InputFilter.LengthFilter(MAX_LENGTH_NAME);
+		filterArray[1] = filter;
+		name.setFilters(filterArray); 
 	
+
+	}
 
 	public boolean isEmpty(){
 		boolean isTextEmpty = false;
@@ -103,8 +143,8 @@ public class GameOver extends Activity implements View.OnClickListener {
 		try{
 
 			//I want to re-write highscores.txt from beginning but don't know how, so I delete the file first.
-			
-			
+
+
 			OutputStreamWriter out = new OutputStreamWriter(openFileOutput("highscores.txt",0));
 			StringBuffer scrBuff = new StringBuffer();
 
@@ -114,7 +154,7 @@ public class GameOver extends Activity implements View.OnClickListener {
 			out.write(scrBuff.toString());
 			System.err.println("successfully written tp highscores.txt: " + scrBuff.toString());
 			out.close();
-			
+
 		}
 		catch (IOException e){
 			e.printStackTrace();
@@ -144,7 +184,7 @@ public class GameOver extends Activity implements View.OnClickListener {
 			else{
 				System.err.println("FILE DOES NOT EXIST");
 			}
-			
+
 
 		}catch (IOException e){
 			e.printStackTrace();
@@ -165,18 +205,18 @@ public class GameOver extends Activity implements View.OnClickListener {
 		else{
 			for(int i = 0; i < scores.size(); i++){
 				int currentScore = Integer.parseInt(scores.get(i).split("\t")[1]);
-				
+
 				if(this.Score > currentScore){
 					indexToPush = i;
 					//System.out.println("ELIGIBLE for TOP 5 SCORES!!:  " + newStrs.get(i) + " is pushed down!");
 					break;
 				}
 			}
-			
+
 			if(indexToPush == -1 && scores.size() < TOP_SCORES){
 				indexToPush = scores.size();
 			}
-			
+
 		}
 		return indexToPush;
 	}

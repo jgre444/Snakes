@@ -9,45 +9,51 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <Gallery
-        android:id="@+id/gallery"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-    
-            <ImageView
-                android:id="@+id/imageShower"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
  
-     <LinearLayout
+    <ImageView
+        android:id="@+id/imageShower"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ImageView>
+
+    <LinearLayout
         android:id="@+id/gallery_relative_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
-         <Button
-             android:id="@+id/menuTut"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Menu" />
+        <Button
+            android:id="@+id/menuTut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="Menu"
+            android:textColor="#663300" />
 
-    <ImageView
-        android:id="@+id/left_arrow_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dip"
-        android:src="@drawable/arrowleft"
-        android:text="left" />
+        <ImageView
+            android:id="@+id/left_arrow_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dip"
+            android:src="@drawable/arrowleft"
+            android:text="left" />
 
-    <ImageView
-        android:id="@+id/right_arrow_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="40dip"
-        android:src="@drawable/arrowright"
-        android:text="right" />
+        <ImageView
+            android:id="@+id/right_arrow_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dip"
+            android:src="@drawable/arrowright"
+            android:text="right" />
+        
+        <TextView 
+            android:id="@+id/pageIdentification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dip"
+            
+            />
+    </LinearLayout>
 
-</LinearLayout>
 </RelativeLayout>

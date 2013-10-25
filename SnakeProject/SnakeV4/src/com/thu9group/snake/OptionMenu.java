@@ -12,6 +12,7 @@ import com.thu9group.snake.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,11 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 	
 	public RadioGroup radioGroup;
 	public RadioButton radioButton;
+	private RadioButton easy;
+	private RadioButton medium;
+	private RadioButton hard;
 	private TextView text;
+	private TextView title; 
 	public int radioId;
 	private Button get;
 	private Button home;
@@ -38,7 +43,28 @@ public class OptionMenu extends Activity implements View.OnClickListener {
 		get=(Button)findViewById(R.id.setLevel);
 		home=(Button)findViewById(R.id.home2);
 	
+	
+		Typeface typeButton = Typeface.createFromAsset(getAssets(),"fonts/woodbadge.ttf"); 
+		home.setTypeface(typeButton);
+		get.setTypeface(typeButton);
+		
+		
 		text=(TextView)findViewById(R.id.textView11);
+		Typeface typeText = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
+		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
+		
+		text.setTypeface(typeText);
+		
+		easy = (RadioButton)findViewById(R.id.radioButton1);
+		medium = (RadioButton)findViewById(R.id.radioButton2);
+		hard = (RadioButton)findViewById(R.id.radioButton3);
+		title = (TextView)findViewById(R.id.TextView01);
+		title.setTypeface(typeHead);
+		easy.setTypeface(typeText);
+		medium.setTypeface(typeText);
+		hard.setTypeface(typeText);
+		
+		
 		home.setOnClickListener(this);
 		get.setOnClickListener(this);
 		setRadioLevel();

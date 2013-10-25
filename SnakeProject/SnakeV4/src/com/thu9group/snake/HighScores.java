@@ -24,7 +24,7 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 	private TextView scoreHeading;
 	private Button delScores;
 	private Button mainMenu;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,10 +38,13 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 		delScores = (Button)findViewById(R.id.resetScore);
 		mainMenu.setOnClickListener(this);
 		delScores.setOnClickListener(this);
+		Typeface typeButton = Typeface.createFromAsset(getAssets(),"fonts/woodbadge.ttf"); 
+		mainMenu.setTypeface(typeButton);
+		delScores.setTypeface(typeButton);
 		tempDisplay();
-		
+
 	}
-	
+
 	public void resetScore(){
 		try{
 			String emptyString = "";
@@ -49,69 +52,70 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 			out.write(emptyString);
 			out.close();
 
-	}catch (IOException e){
-		e.printStackTrace();
-	}
-		
-}
-	
-	
-	//changed this 
-	public void tempDisplay(){
-		try{
-		
-		FileInputStream fis = openFileInput("highscores.txt");
-		InputStreamReader isr = new InputStreamReader(fis);
-		BufferedReader br = new BufferedReader(isr);
-		String aLine = null;
-		int counter = 1;
-		String finalNames = "\n";
-		String finalScores = "\n";
-		while ((aLine=br.readLine())!=null){
-			String name = aLine.split("\t")[0];	
-			String score = aLine.split("\t")[1];
-			finalNames+="\n" + counter+ ". "+ name;
-			finalScores+= "\n\t" + score;
-			counter+=1;
-			
-		}
-		
-		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
-		scoreHeading.setTypeface(typeHead);
-		scoreHeading.setText("  Name\t\t\tScore\n---------------");
-		
-		Typeface typeScore = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
-		nameText.setTypeface(typeScore);
-		nameText.setText(finalNames.toString());
-		
-		scoreText.setTypeface(typeScore);
-		scoreText.setText(finalScores.toString());
-		
-		
 		}catch (IOException e){
 			e.printStackTrace();
 		}
 
-		
 	}
-	
+
+
+	//changed this 
+	public void tempDisplay(){
+		try{
+
+			FileInputStream fis = openFileInput("highscores.txt");
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+			String aLine = null;
+			int counter = 1;
+			String finalNames = "\n";
+			String finalScores = "\n";
+			while ((aLine=br.readLine())!=null){
+				String name = aLine.split("\t")[0];	
+				String score = aLine.split("\t")[1];
+				finalNames+="\n" + counter+ ". "+ name;
+				finalScores+= "\n    " + score;
+				counter+=1;
+
+			}
+
+			Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
+			scoreHeading.setTypeface(typeHead);
+			scoreHeading.setText("  NAME                 SCORE\n------------------------");
+
+			Typeface typeScore = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
+			nameText.setTypeface(typeScore);
+			nameText.setText(finalNames.toString());
+
+			scoreText.setTypeface(typeScore);
+			scoreText.setText(finalScores.toString());
+
+
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+
+
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
 		// this will exit the program
-	  
-	
-	   case R.id.returnHome:
-	    	Intent newIntent= new Intent(this, MainActivity.class);
-	    	newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);	    	
-	    	startActivity(newIntent);
-	    	break;
-	   case R.id.resetScore:
-		   resetScore();
-		   break;
-	  
+
+
+		case R.id.returnHome:
+			Intent newIntent= new Intent(this, MainActivity.class);
+			newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);	    	
+			startActivity(newIntent);
+			break;
+		case R.id.resetScore:
+			resetScore();
+			tempDisplay();
+			break;
+
 		}
-		
+
 	}
 
 

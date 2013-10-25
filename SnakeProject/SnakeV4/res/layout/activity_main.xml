@@ -1,66 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-    
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/db1_root"
+    android:id="@+id/db1_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-   >
+    android:orientation="vertical" >
 
-   <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-       	android:background="@drawable/snakebackground"
+        android:background="@drawable/snakebackground"
         android:gravity="center|bottom"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/gameOverButton"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:text="Play" />
+            android:background="@drawable/button_background"
+            android:text="Play"
+            android:textColor="#663300" 
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button2"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="High Scores" />
+            android:layout_marginTop="5dip"
+            android:background="@drawable/button_background"
+            android:text="High Scores"
+            android:textColor="#663300" 
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button3"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="Tutorial" />
+            android:layout_marginTop="5dip"
+            android:background="@drawable/button_background"
+            android:text="Tutorial"
+             android:textColor="#663300" 
+            android:textSize="18sp" />
 
-      <Button
+        <Button
             android:id="@+id/button4"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="Options" />
-      <Button
+            android:layout_marginTop="5dip"
+            android:background="@drawable/button_background"
+            android:text="Options"
+             android:textColor="#663300" 
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/button5"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="Credits" />
+            android:layout_marginTop="5dip"
+            android:background="@drawable/button_background"
+            android:text="Credits"
+            android:textColor="#663300" 
+            android:textSize="18sp"/>
+
         <Button
             android:id="@+id/button6"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="145dp"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="Exit" />
-      </LinearLayout>
-
+            android:layout_marginTop="5dip"
+            android:background="@drawable/button_background"
+            android:text="Exit"
+             android:textColor="#663300" 
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -165,6 +166,7 @@ public class GameState {
 				System.err.println("output"+output);
 				br.close();
 			}
+			
 		}  catch (IOException e){
 				e.printStackTrace();
 		} catch (Exception e2) {

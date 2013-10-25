@@ -11,6 +11,9 @@ import android.os.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -67,6 +70,12 @@ public class Grid extends Activity implements Runnable {
 
 		pause = new Button(this);
 		menu = new Button(this);
+		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/woodbadge.ttf"); 
+		menu.setTypeface(typeHead);
+		pause.setTypeface(typeHead);
+		menu.setTextColor(Color.parseColor("#663300"));
+		pause.setTextColor(Color.parseColor("#663300"));
+		
 		menu.setText("MENU");
 		pause.setText("PAUSE");
 		topLayout.addView(pause, tlp);
@@ -93,13 +102,18 @@ public class Grid extends Activity implements Runnable {
         });
 		
 		score = new ScoreView(this);
+		Typeface typeText = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
+		score.setTypeface(typeText);
+		
 		score.setText("SCORE: ");
 		
 		
 		score.setLayoutParams(tlp);
 		topLayout.addView(score);
 		
+	
 		difficultyInfo = new DifficultyView(this);
+		difficultyInfo.setTypeface(typeText);
 		difficultyInfo.setText("    DIFFICULTY: ");
 		
 		if(getBaseContext().getFileStreamPath("level.txt").exists()){

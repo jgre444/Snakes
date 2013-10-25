@@ -2,46 +2,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/optionmenu"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/optionmenu"
     tools:context=".GameOver" >
 
     <Button
         android:id="@+id/gameOverButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/endScore"
-        android:layout_below="@+id/endScore"
-        android:layout_marginTop="90dp"
+         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/button_background"
+        android:textColor="#663300" 
         android:onClick="submit"
-        android:text="Return to Menu" />
+        android:text="Main Menu" />
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/goTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Game over!"
         android:textSize="24dp" />
-     <TextView
-        android:id="@+id/TextView02"
+
+    <TextView
+        android:id="@+id/nameHelp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter your name below, max name length is 6 characters"
-         android:layout_alignLeft="@+id/TextView01"
-        android:layout_below="@+id/TextView01"
+        android:layout_alignLeft="@+id/goTitle"
+        android:layout_below="@+id/goTitle"
+        android:text="Enter your name below, max name length is 10 characters\n(Only a-z and 0-9 accepted)"
         android:textSize="12dp" />
 
     <TextView
         android:id="@+id/endScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView02"
-        android:layout_below="@+id/TextView02"
+        android:layout_alignLeft="@+id/nameHelp"
+        android:layout_below="@+id/nameHelp"
         android:layout_marginTop="79dp"
         android:text="___"
         android:textSize="20dp" />
@@ -53,8 +55,7 @@
         android:layout_alignBottom="@+id/endScore"
         android:layout_alignLeft="@+id/endScore"
         android:layout_marginBottom="32dp"
-        android:ems="10" 
-        android:maxLength="6">
+        android:ems="10" >
 
         <requestFocus />
     </EditText>
@@ -67,7 +68,9 @@
         android:layout_alignRight="@+id/gameOverButton"
         android:layout_below="@+id/endScore"
         android:layout_marginTop="34dp"
-        android:text="Submit Score" />
+        android:background="@drawable/button_background"
+        android:text="Submit Score" 
+        android:textColor="#663300" />
 
     <TextView
         android:id="@+id/txtDisplay"
