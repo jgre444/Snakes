@@ -93,6 +93,7 @@ public class Grid extends Activity implements Runnable {
 			
 			@Override
 			public void onClick(View v) {
+		        destroyed = true;
 				Intent newIntent = new Intent(Grid.this,GameOver.class);
 				startActivity(newIntent);
 				
