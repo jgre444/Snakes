@@ -28,8 +28,8 @@ public class GameState {
 	public static final int HARD = 3;
 	
 	//configuration options
-	public static final int X_COUNT = 14;
-	public static final int Y_COUNT = 22;
+	public static final int X_COUNT = 15;
+	public static final int Y_COUNT = 20;
 	
 	//the percentage chance of spawning an obstacle every cycle
 	public static final double OBSTACLE_SPAWN_CHANCE_EASY = 0;
@@ -44,9 +44,9 @@ public class GameState {
 	public static final double DECR_SPAWN_CHANCE_MEDIUM = 0.4;
 	public static final double DECR_SPAWN_CHANCE_HARD = 0.22;	
 	
-	public static final int SIZE_INCREASE_DURATION = 50;
+	public static final int SIZE_INCREASE_DURATION = 80;
 	public static final int SIZE_MULTIPLIER = 3;
-	public static final int SIZE_DECREASE_AMT = 3;
+	public static final int SIZE_DECREASE_AMT = 4;
 	
 	public static final int FOOD_LIFETIME = 100;
 	public static final int OBSTACLE_LIFETIME = 50;
@@ -70,13 +70,10 @@ public class GameState {
     public Grid activity;
     public int state;
    
-    
-
     private ArrayList<Coordinate> snakeList = new ArrayList<Coordinate>();
     private ArrayList<Feature> featureList = new ArrayList<Feature>();
 	private boolean gameOver = false;
-	private int turn = 0;
-	private int sizeIncrease = 0;
+	public int sizeIncrease = 0;
 	private int superGrow = 0;
 	private double scoreMultiplier = 0.0;
     
@@ -112,7 +109,6 @@ public class GameState {
         }
 
         
-        System.err.println("Delay: "+ delay	);
         score = 0;
         state = RUNNING;
     }
@@ -190,7 +186,6 @@ public class GameState {
 		if(state == PAUSED) {
 			return;
 		}
-		turn++;
 		
 		if (sizeIncrease > 0) {
 			sizeIncrease-- ;
@@ -414,7 +409,7 @@ public class GameState {
 				}
 				featureList.remove(i);
 		    	score += (1 * scoreMultiplier);				
-				if((delay > 144) && (difficulty == HARD)) {
+				if((delay > 170) && (difficulty == HARD)) {
 					delay = delay - 6;
 				}
 				break;

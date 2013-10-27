@@ -5,6 +5,9 @@ package com.thu9group.snake;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,7 +36,14 @@ public class GridView extends View {
     private final static int GRASS = 0xAA5D8960;
     private static final int SNAKE_BODY = 0XFF255C3D;
     private static final int SNAKE_EDGE =  0xFF085027; 
+    private static final int FLASH_COLOUR = Color.GRAY;
     
+    private boolean flashGray = false;
+    private Bitmap sizeIncrease;
+    private Bitmap sizeDecrease;
+    private Bitmap food;
+    private Bitmap obstacle;
+    private boolean bitmapsInitialized = false;
 
     /*
      * Constructor method
@@ -46,17 +56,37 @@ public class GridView extends View {
 		r = new RectF();
 		paint = new Paint();
 		setBackgroundColor(GRASS);
+		
+		
 	}
     	
+	private void initBitmaps() {
+		Bitmap bitmap;
+		
+		bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.apple);
+		food = Bitmap.createScaledBitmap(bitmap, xCellSize, yCellSize, true);
+		
+		bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.stone);
+		obstacle = Bitmap.createScaledBitmap(bitmap, xCellSize, yCellSize, true);
+		
+		bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.powerup1);
+		sizeIncrease = Bitmap.createScaledBitmap(bitmap, xCellSize, yCellSize, true);	
+		
+		bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.powerup2);
+		sizeDecrease = Bitmap.createScaledBitmap(bitmap, xCellSize, yCellSize, true);			
+	}
 	/*
 	 * Draw Canvas
 	 * (non-Javadoc)
 	 * @see android.view.View#onDraw(android.graphics.Canvas)
 	 */
-
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 	
+		if (bitmapsInitialized == false) {
+			initBitmaps();
+			bitmapsInitialized = true;
+		}
 		// Draw the walls
 		paint.setColor(Color.BLACK);
 		RectF wall = new RectF();
@@ -79,7 +109,14 @@ public class GridView extends View {
 			drawSnakeBody(snakeList.get(i), canvas);
 		}
 		drawSnakeTail(snakeList.get(snakeList.size()-1), snakeList.get(snakeList.size()-2), canvas);
-        
+		
+		if (flashGray == true) {
+			flashGray = false;
+		} else {
+			if (gameState.sizeIncrease > 0) {
+				flashGray = true;
+			}
+		}
 		// Draw features
 		ArrayList<Feature> featureList = gameState.getFeatureList();
 		for(int i = 0 ; i < featureList.size() ; i++) {
@@ -105,7 +142,22 @@ public class GridView extends View {
 			bottom = (c.y+1)*yCellSize + yOffset;
 			
 			r.set(left, top, right, bottom);
-			canvas.drawRect(r, paint);
+
+			
+			if (f.type == Feature.FOOD) {
+				canvas.drawBitmap(food, null, r, paint);		
+			} else if (f.type == Feature.OBSTACLE) {
+				canvas.drawBitmap(obstacle, null, r, paint);					
+			} else if (f.type == Feature.SIZE_INCREASE) {
+				canvas.drawBitmap(sizeIncrease, null, r, paint);					
+			} else if (f.type == Feature.SIZE_DECREASE) {
+				canvas.drawBitmap(sizeDecrease, null, r, paint);					
+			}
+			else {
+				canvas.drawRect(r, paint);				
+			}
+			//BitmapFactory.decodeResource(., id)
+		//	canvas.drawBitmap(bitmap, matrix, paint)
 
 		}		
 	}
@@ -121,6 +173,9 @@ public class GridView extends View {
 		
 		r.set(boxleft + xSnakeIndent, boxtop+ySnakeIndent, boxright-xSnakeIndent, boxbottom-ySnakeIndent);
 		paint.setColor(SNAKE_BODY);
+		if (flashGray == true) {
+			paint.setColor(FLASH_COLOUR);
+		} 
 		canvas.drawRect(r, paint);
 		
 		if(orientation == Coordinate.UP) {
@@ -330,6 +385,7 @@ public class GridView extends View {
 	private void drawSnakeBody(Coordinate c, Canvas canvas) {
 		int orientation = c.orientation;
 		paint.setColor(SNAKE_BODY);
+		
 		int boxleft, boxright, boxtop, boxbottom;
 		
 		boxleft = c.x*xCellSize+xOffset;

@@ -40,8 +40,17 @@ public class Grid extends Activity implements Runnable {
     private long lastUpdate;
     private GameOverHandler mHandler;
     private DifficultyView difficultyInfo;
-    
+    private boolean destroyed = false;
 
+    
+    @Override
+    public void onDestroy()
+    {
+        destroyed = true;
+        super.onDestroy();
+      //  Toast.makeText(getApplicationContext(),"16. onDestroy()", Toast.LENGTH_SHORT).show();
+    }
+    
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -185,11 +194,10 @@ public class Grid extends Activity implements Runnable {
             // Gets the message from the Game Thread
         	// In this case, the message will always be a game over message.
         	// That means we must close the activity and start the GameOver activity
-	    	Log.d("Snake hit itself" ,"Snake hit itself");
-			Intent intent = new Intent(activity, GameOver.class);
-			//intent.putExtra(Grid.HIGH_SCORE, (Integer)inputMessage);
-			activity.startActivity(intent);
-			
+        	if (destroyed == false) {
+        		Intent intent = new Intent(activity, GameOver.class);
+				activity.startActivity(intent);
+        	}
         }		
 	}
 	
@@ -200,7 +208,6 @@ public class Grid extends Activity implements Runnable {
 		@Override
         public boolean onDown(MotionEvent event) { 
             
-			Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
             return true;
         }
 
@@ -231,7 +238,6 @@ public class Grid extends Activity implements Runnable {
         	}
         	
         	gameState.updateDirection(d);
-            Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString() + "\n" + direction);
             return true;
         }
 	}
