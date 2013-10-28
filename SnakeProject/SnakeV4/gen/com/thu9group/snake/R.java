@@ -46,13 +46,13 @@ containing a value of this type.
         public static final int snakeeight=0x7f02000e;
         public static final int snakefive=0x7f02000f;
         public static final int snakefour=0x7f020010;
-        public static final int snakeone=0x7f020011;
-        public static final int snakeseven=0x7f020012;
-        public static final int snakesix=0x7f020013;
-        public static final int snakethree=0x7f020014;
-        public static final int snaketwo=0x7f020015;
-        public static final int stone=0x7f020016;
-        public static final int topscoreframe=0x7f020017;
+        public static final int snakenine=0x7f020011;
+        public static final int snakeone=0x7f020012;
+        public static final int snakeseven=0x7f020013;
+        public static final int snakesix=0x7f020014;
+        public static final int snakethree=0x7f020015;
+        public static final int snaketwo=0x7f020016;
+        public static final int stone=0x7f020017;
     }
     public static final class id {
         public static final int TextView01=0x7f080014;

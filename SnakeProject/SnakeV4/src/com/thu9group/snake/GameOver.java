@@ -42,7 +42,7 @@ public class GameOver extends Activity implements View.OnClickListener {
 	private TextView goTitle;
 	private EditText name;
 	private int Score;
-	private final int TOP_SCORES = 5;
+	public final static int TOP_SCORES = 5;
 	public final static int MAX_LENGTH_NAME= 10;
 	
 	private ArrayList<String> scores;

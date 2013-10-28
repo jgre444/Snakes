@@ -33,7 +33,7 @@ public class Tutorial extends Activity  implements View.OnClickListener {
 	private int curPos;
 	private TextView pages;
 
-	private final int NO_OF_IMAGES = 8;
+	private final int NO_OF_IMAGES = 9;
 	private Integer[] mImageIds = {
 			R.drawable.snakeone,
 			R.drawable.snaketwo,
@@ -42,7 +42,8 @@ public class Tutorial extends Activity  implements View.OnClickListener {
 			R.drawable.snakefive,
 			R.drawable.snakesix,
 			R.drawable.snakeseven,
-			R.drawable.snakeeight
+			R.drawable.snakeeight,
+			R.drawable.snakenine
 	};
 
 	@Override

@@ -61,6 +61,10 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 
 	//changed this 
 	public void tempDisplay(){
+		Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
+		scoreHeading.setTypeface(typeHead);
+		scoreHeading.setText("  NAME                 SCORE\n------------------------");
+
 		try{
 
 			FileInputStream fis = openFileInput("highscores.txt");
@@ -79,10 +83,7 @@ public class HighScores  extends Activity  implements View.OnClickListener{
 
 			}
 
-			Typeface typeHead = Typeface.createFromAsset(getAssets(),"fonts/acmesab.ttf"); 
-			scoreHeading.setTypeface(typeHead);
-			scoreHeading.setText("  NAME                 SCORE\n------------------------");
-
+			
 			Typeface typeScore = Typeface.createFromAsset(getAssets(),"fonts/acmesa.ttf"); 
 			nameText.setTypeface(typeScore);
 			nameText.setText(finalNames.toString());
